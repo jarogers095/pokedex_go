@@ -1,8 +1,8 @@
 # PokedexGo
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pokedex_go`. To experiment with that code, run `bin/console` for an interactive prompt.
+PokedexGo is an application that scrapes data from the website "gamepress.gg.pokemongo" and presents it to the user via a convenient commandline interface. This data is useful for players of the mobile OS game "Pokemon Go," a game that focuses on collecting creatures and using them to battle other players. 
 
-TODO: Delete this and the text above, and describe your gem
+A user can view a list of all available Pokemon, search by name or the number the game catalogues the Pokemon by. Once a user has selected a specific Pokemon, they can view details such as Pokemon type, attack and defense stats, attack pools, attack ratings, combat ranking, type strengths and weaknesses, and many more.
 
 ## Installation
 
@@ -32,7 +32,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pokedex_go. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/pokedex_go/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/jarogers095/pokedex_go. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/jarogers095/pokedex_go/blob/master/CODE_OF_CONDUCT.md).
 
 
 ## License
@@ -41,4 +41,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the PokedexGo project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/pokedex_go/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the PokedexGo project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/jarogers095/pokedex_go/blob/master/CODE_OF_CONDUCT.md).
