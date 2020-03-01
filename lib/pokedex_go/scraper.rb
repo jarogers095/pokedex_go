@@ -9,7 +9,7 @@ class PokedexGo::Scraper
     end
 
     def self.scrape_pokemon_profile(profile_url)
-        return get_page(profile_url)
+        return get_page("https://gamepress.gg#{profile_url}")
     end
         
     def self.create_pokemon_from_index()
@@ -42,8 +42,8 @@ class PokedexGo::Scraper
             fast_moves: profile_page.css(".field--name-field-primary-moves .pokemon-page-moves-item"),
             charge_moves: profile_page.css(".field--name-field-secondary-moves .pokemon-page-moves-item"),
             female_ratio: profile_page.css(".female-percentage").text.strip(),
-            weaknesses: profile_page.css("#weak-table tbody tr"),
-            resistances: profile_page.css("#resist-table tbody tr")
+            weaknesses: profile_page.css("#weak-table"),
+            resistances: profile_page.css("#resist-table")
         }
 
         pokemon.add_stats(profile_stats)
