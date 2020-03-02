@@ -1,4 +1,16 @@
 class PokedexGo::CLI
+    @@clr = {
+        black: "\u001b[38;5;136m",
+        red: "\u001b[31m",
+        green: "\u001b[32;1m",
+        yellow: "\u001b[33;1m",
+        blue: "\u001b[34m",
+        magenta: "\u001b[35m",
+        cyan: "\u001b[36m",
+        white: "\u001b[37m",
+        reset: "\u001b[0m"
+    }
+
     def self.call()
         #entrypoint
         welcome()
@@ -57,9 +69,9 @@ class PokedexGo::CLI
         #lists all pokemon of given type
         puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=Type Menu=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
         puts "|                                                               |"
-        puts "| Bug       Dark      Dragon     Electric    Fairy     Fighting |"
-        puts "| Fire      Flying    Ghost      Grass       Ground    Ice      |"
-        puts "| Normal    Poison    Psychic    Rock        Steel     Water    |"
+        puts "| #{@@clr[:green]}Bug       #{@@clr[:magenta]}Dark      #{@@clr[:white]}Dragon     #{@@clr[:yellow]}Electric    #{@@clr[:cyan]}Fairy     #{@@clr[:red]}Fighting |"
+        puts "| #{@@clr[:red]}Fire      #{@@clr[:white]}Flying    #{@@clr[:magenta]}Ghost      #{@@clr[:green]}Grass       #{@@clr[:black]}Ground    #{@@clr[:cyan]}Ice      |"
+        puts "| #{@@clr[:white]}Normal    #{@@clr[:magenta]}Poison    #{@@clr[:red]}Psychic    #{@@clr[:black]}Rock        #{@@clr[:white]}Steel     #{@@clr[:blue]}Water#{@@clr[:reset]}    |"
         puts "|                                                               |"
         puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
         puts ""
@@ -91,5 +103,13 @@ class PokedexGo::CLI
     def self.view_pokemon_profile(pokemon)
         #view full profile of individual pokemon
         PokedexGo::Scraper.add_profile_stats(pokemon)
+        puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
+        puts "| \##{pokemon.number}    \u001b[31;1m#{pokemon.name}    [#{pokemon.type}]"
+        puts "| Atk: #{pokemon.attack}    Def: #{pokemon.defense}    Sta: #{pokemon.stamina}    Max CP: #{pokemon.max_cp}"
+        puts "| "
+        puts "| Weight: #{pokemon.weight}    Height: #{pokemon.height}"
+        puts "|                                                               |"
+        puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
+        puts ""
     end
 end

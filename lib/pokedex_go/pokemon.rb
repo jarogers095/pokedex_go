@@ -40,7 +40,7 @@ class PokedexGo::Pokemon
     end
 
     def add_stats(stats)
-        attributes.each do |key, value|
+        stats.each do |key, value|
             instance_variable_set("@#{key}", value)
         end
     end

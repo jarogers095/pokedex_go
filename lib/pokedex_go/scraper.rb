@@ -38,8 +38,8 @@ class PokedexGo::Scraper
     def self.add_profile_stats(pokemon)
         profile_page = scrape_pokemon_profile(pokemon.profile_url)
         profile_stats = {
-            weight: profile_page.css(".pokemon-weight").text.strip(),
-            height: profile_page.css(".pokemon-height").text.strip(),
+            weight: profile_page.css(".pokemon-weight").text.strip().split("\n")[0],
+            height: profile_page.css(".pokemon-height").text.strip().split("\n")[0],
             fast_moves: profile_page.css(".field--name-field-primary-moves .pokemon-page-moves-item"),
             charge_moves: profile_page.css(".field--name-field-secondary-moves .pokemon-page-moves-item"),
             female_ratio: profile_page.css(".female-percentage").text.strip(),
