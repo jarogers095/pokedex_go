@@ -15,13 +15,13 @@ class PokedexGo::Scraper
     def self.create_pokemon_from_index()
         scrape_pokemon_index().each do |entry|
             attributes = {
+                number: entry.attribute("data-id").value,
                 name: entry.attribute("data-name").value,
                 gen: entry.attribute("data-gen").value,
                 buddy_dist: entry.attribute("data-buddy").value,
                 egg: entry.attribute("data-egg").value,
                 evo_cost: entry.attribute("data-candy").value,
                 new_move_cost: entry.attribute("data-charge2").value,
-                number: entry.attribute("data-id").value,
                 stamina: entry.attribute("data-sta").value,
                 attack: entry.attribute("data-atk").value,
                 defense: entry.attribute("data-def").value,
@@ -32,6 +32,7 @@ class PokedexGo::Scraper
             }
             PokedexGo::Pokemon.new(attributes)
         end
+        PokedexGo::Pokemon.sort("number")
     end
 
     def self.add_profile_stats(pokemon)
