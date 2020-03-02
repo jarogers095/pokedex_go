@@ -22,7 +22,7 @@ class CLI
 
         user_input = 0
 
-        while user_input < 1 || user_input > 3
+        while user_input != 1 && user_input != 2 && user_input != 3
             print "Enter an option:"
             user_input = gets.chomp.to_i
             case user_input
