@@ -5,8 +5,9 @@ class CLI
     end
 
     def welcome()
-        #initial welcome message
+        #initial welcome message and creation of Pokemon index
         puts "Welcome to Pokedex Go: The World's Best Text-Based Pokemon Go Search Tool!"
+        Scraper.create_pokemon_from_index()
     end
 
     def main_menu()
@@ -28,10 +29,13 @@ class CLI
             case user_input
             when 1
                 list_all_pokemon()
+                break
             when 2
                 list_pokemon_by_type()
+                break
             when 3
                 view_pokemon_profile()
+                break
             else
                 puts "#{user_input} is an invalid selection"
             end
@@ -40,6 +44,11 @@ class CLI
 
     def list_all_pokemon()
         #presents entire list of pokemon, broken up into segments
+        Pokemon.all.each do |pokemon|
+            puts "#{pokemon.number}: #{pokemon.name}"
+        end
+        print "Select a Pokemon: "
+        gets.chomp.to_i
     end
 
     def list_pokemon_by_type(type)
