@@ -1,16 +1,17 @@
-class CLI
-    def call()
+class PokedexGo::CLI
+    def self.call()
         #entrypoint
         welcome()
     end
 
-    def welcome()
+    def self.welcome()
         #initial welcome message and creation of Pokemon index
         puts "Welcome to Pokedex Go: The World's Best Text-Based Pokemon Go Search Tool!"
-        Scraper.create_pokemon_from_index()
+        PokedexGo::Scraper.create_pokemon_from_index()
+        main_menu()
     end
 
-    def main_menu()
+    def self.main_menu()
         #Root of menu system
         puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=Main Menu=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
         puts "|                                                               |"
@@ -42,20 +43,20 @@ class CLI
         end
     end
 
-    def list_all_pokemon()
+    def self.list_all_pokemon()
         #presents entire list of pokemon, broken up into segments
-        Pokemon.all.each do |pokemon|
+        PokedexGo::Pokemon.all.each do |pokemon|
             puts "#{pokemon.number}: #{pokemon.name}"
         end
         print "Select a Pokemon: "
         gets.chomp.to_i
     end
 
-    def list_pokemon_by_type(type)
+    def self.list_pokemon_by_type(type)
         #lists all pokemon of given type
     end
 
-    def view_pokemon_profile(pokemon)
+    def self.view_pokemon_profile(pokemon)
         #view full profile of individual pokemon
     end
 end

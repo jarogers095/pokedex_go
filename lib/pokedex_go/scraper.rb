@@ -30,7 +30,7 @@ class PokedexGo::Scraper
                 type: entry.attribute("data-type").value,
                 profile_url: entry.css("td a").first.attribute("href").value,
             }
-            Pokemon.new(attributes)
+            PokedexGo::Pokemon.new(attributes)
         end
     end
 

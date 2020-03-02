@@ -1,5 +1,5 @@
 class PokedexGo::Pokemon
-    @@all
+    @@all = []
     attr_reader(
         :name, :gen, :buddy_dist,
         :egg, :evo_cost, :new_move_cost,
@@ -14,6 +14,8 @@ class PokedexGo::Pokemon
     def initialize(attributes = {})
         attributes.each do |key, value|
             instance_variable_set("@#{key}", value)
+        end
+
         @@all << self
     end
 
