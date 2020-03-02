@@ -1,14 +1,23 @@
 class CLI
     def call()
         #entrypoint
+        welcome()
     end
 
     def welcome()
         #initial welcome message
+        puts "Welcome to Pokedex Go: The World's Best Text-Based Pokemon Go Search Tool!"
     end
 
     def main_menu()
         #Root of menu system
+        puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=Main Menu=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
+        puts "|                                                               |"
+        puts "| 1: List all available Pokemon                                 |"
+        puts "| 2: List all Pokemon of a specific type                        |"
+        puts "| 3: View individual Pokemon profile                            |"
+        puts "|                                                               |"
+        puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
     end
 
     def list_all_pokemon()
