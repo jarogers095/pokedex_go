@@ -18,6 +18,24 @@ class CLI
         puts "| 3: View individual Pokemon profile                            |"
         puts "|                                                               |"
         puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
+        puts ""
+
+        user_input = 0
+
+        while user_input < 1 || user_input > 3
+            print "Enter an option:"
+            user_input = gets.chomp.to_i
+            case user_input
+            when 1
+                list_all_pokemon()
+            when 2
+                list_pokemon_by_type()
+            when 3
+                view_pokemon_profile()
+            else
+                puts "#{user_input} is an invalid selection"
+            end
+        end
     end
 
     def list_all_pokemon()
