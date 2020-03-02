@@ -15,7 +15,7 @@ class PokedexGo::Scraper
     def self.create_pokemon_from_index()
         scrape_pokemon_index().each do |entry|
             attributes = {
-                number: entry.attribute("data-id").value,
+                number: entry.attribute("data-id").value.to_i,
                 name: entry.attribute("data-name").value,
                 gen: entry.attribute("data-gen").value,
                 buddy_dist: entry.attribute("data-buddy").value,

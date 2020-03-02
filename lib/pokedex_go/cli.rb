@@ -32,7 +32,7 @@ class PokedexGo::CLI
                 list_all_pokemon()
                 break
             when 2
-                list_pokemon_by_type()
+                list_pokemon_of_type()
                 break
             when 3
                 view_pokemon_profile()
@@ -52,8 +52,32 @@ class PokedexGo::CLI
         gets.chomp.to_i
     end
 
-    def self.list_pokemon_by_type(type)
+    def self.list_pokemon_of_type(type)
         #lists all pokemon of given type
+        puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=Type Menu=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
+        puts "|                                                               |"
+        puts "| Bug       Dark      Dragon     Electric    Fairy     Fighting |"
+        puts "| Fire      Flying    Ghost      Grass       Ground    Ice      |"
+        puts "| Normal    Poison    Psychic    Rock        Steel     Water    |"
+        puts "|                                                               |"
+        puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
+        puts ""
+
+        user_input = 0
+
+
+
+
+        pokemon_of_type = PokedexGo::Pokemon.all.select do |pokemon|
+            pokemon.type.include?(type)
+        end
+
+        pokemon_of_type.each do |mon|
+            puts "#{mon.number}: #{mon.name} (#{mon.type})"
+        end
+        
+        print "Select a Pokemon: "
+        gets.chomp.to_i
     end
 
     def self.view_pokemon_profile(pokemon)
