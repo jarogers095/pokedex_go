@@ -1,9 +1,9 @@
 class PokedexGo::Pokemon
-    TYPES = ["Bug", "Dark", "Dragon", "Electric", 
-        "Fairy", "Fighting", "Fire", "Flying", 
-        "Ghost", "Grass", "Ground", "Ice", 
-        "Normal", "Poison", "Psychic", "Rock", 
-        "Steel", "Water"
+    TYPES = ["bug", "dark", "dragon", "electric", 
+        "fairy", "fighting", "fire", "flying", 
+        "ghost", "grass", "ground", "ice", 
+        "normal", "poison", "psychic", "rock", 
+        "steel", "water"
     ]
     @@all = []
     attr_reader(
@@ -36,6 +36,12 @@ class PokedexGo::Pokemon
     def self.sort(method)
         @@all.sort! do |a, b|
             a.instance_variable_get("@#{method}") <=> b.instance_variable_get("@#{method}")
+        end
+    end
+
+    def add_stats(stats)
+        attributes.each do |key, value|
+            instance_variable_set("@#{key}", value)
         end
     end
 end

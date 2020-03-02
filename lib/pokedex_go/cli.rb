@@ -25,7 +25,7 @@ class PokedexGo::CLI
         user_input = 0
 
         while user_input != 1 && user_input != 2 && user_input != 3
-            print "Enter an option:"
+            print "Enter an option: "
             user_input = gets.chomp.to_i
             case user_input
             when 1
@@ -49,10 +49,11 @@ class PokedexGo::CLI
             puts "#{pokemon.number}: #{pokemon.name}"
         end
         print "Select a Pokemon: "
-        gets.chomp.to_i
+        user_input = gets.chomp.to_i
+        view_pokemon_profile(PokedexGo::Pokemon.all.detect{|mon| mon.number == user_input})
     end
 
-    def self.list_pokemon_of_type(type)
+    def self.list_pokemon_of_type()
         #lists all pokemon of given type
         puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=Type Menu=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
         puts "|                                                               |"
@@ -63,13 +64,19 @@ class PokedexGo::CLI
         puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
         puts ""
 
-        user_input = 0
-
+        user_input = "none"
+        while !PokedexGo::Pokemon.types.include?(user_input)
+            print "Enter a type: "
+            user_input = gets.chomp
+            if !PokedexGo::Pokemon.types.include?(user_input)
+                puts "#{user_input} is an invalid selection"
+            end
+        end
 
 
 
         pokemon_of_type = PokedexGo::Pokemon.all.select do |pokemon|
-            pokemon.type.include?(type)
+            pokemon.type.include?(user_input)
         end
 
         pokemon_of_type.each do |mon|
@@ -77,10 +84,12 @@ class PokedexGo::CLI
         end
         
         print "Select a Pokemon: "
-        gets.chomp.to_i
+        user_input = gets.chomp.to_i
+        view_pokemon_profile(PokedexGo::Pokemon.all.detect{|mon| mon.number == user_input})
     end
 
     def self.view_pokemon_profile(pokemon)
         #view full profile of individual pokemon
+        PokedexGo::Scraper.add_profile_stats(pokemon)
     end
 end
