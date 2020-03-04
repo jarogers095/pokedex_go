@@ -1,5 +1,5 @@
 class PokedexGo::CLI
-    @@clr = {
+    CLR = {
         black: "\u001b[38;5;136m",
         red: "\u001b[31m",
         green: "\u001b[32;1m",
@@ -69,9 +69,9 @@ class PokedexGo::CLI
         #lists all pokemon of given type
         puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=Type Menu=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
         puts "|                                                               |"
-        puts "| #{@@clr[:green]}Bug       #{@@clr[:magenta]}Dark      #{@@clr[:white]}Dragon     #{@@clr[:yellow]}Electric    #{@@clr[:cyan]}Fairy     #{@@clr[:red]}Fighting |"
-        puts "| #{@@clr[:red]}Fire      #{@@clr[:white]}Flying    #{@@clr[:magenta]}Ghost      #{@@clr[:green]}Grass       #{@@clr[:black]}Ground    #{@@clr[:cyan]}Ice      |"
-        puts "| #{@@clr[:white]}Normal    #{@@clr[:magenta]}Poison    #{@@clr[:red]}Psychic    #{@@clr[:black]}Rock        #{@@clr[:white]}Steel     #{@@clr[:blue]}Water#{@@clr[:reset]}    |"
+        puts "| #{CLR[:green]}Bug       #{CLR[:magenta]}Dark      #{CLR[:white]}Dragon     #{CLR[:yellow]}Electric    #{CLR[:cyan]}Fairy     #{CLR[:red]}Fighting |"
+        puts "| #{CLR[:red]}Fire      #{CLR[:white]}Flying    #{CLR[:magenta]}Ghost      #{CLR[:green]}Grass       #{CLR[:black]}Ground    #{CLR[:cyan]}Ice      |"
+        puts "| #{CLR[:white]}Normal    #{CLR[:magenta]}Poison    #{CLR[:red]}Psychic    #{CLR[:black]}Rock        #{CLR[:white]}Steel     #{CLR[:blue]}Water#{CLR[:reset]}    |"
         puts "|                                                               |"
         puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
         puts ""
