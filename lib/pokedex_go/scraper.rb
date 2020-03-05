@@ -41,7 +41,11 @@ class PokedexGo::Scraper
         pvp_movesets_parsed = []
         weaknesses_parsed = []
         resistances_parsed = []
-        ratings_parsed = {}
+        ratings_parsed = {
+            great_league: "0 / 0",
+            ultra_league: "0 / 0",
+            master_league: "0 / 0"
+        }
 
         pve_movesets_html = profile_page.css(".pve-section .views-element-container .view .view-content .views-table tbody tr")
         pve_movesets_html.each do |moveset|
@@ -85,19 +89,15 @@ class PokedexGo::Scraper
 
         rating_rows = profile_page.css(".pokemon-ratings-container .rating-cell-item")
 
-        case rating_rows.count
-        when 5
-            ratings_parsed[:great_league] = rating_rows[2].css(".cell-rating-right").text
-            ratings_parsed[:ultra_league] = rating_rows[3].css(".cell-rating-right").text
-            ratings_parsed[:master_league] = rating_rows[4].css(".cell-rating-right").text
-        when 4
-            ratings_parsed[:great_league] = rating_rows[1].css(".cell-rating-right").text
-            ratings_parsed[:ultra_league] = rating_rows[2].css(".cell-rating-right").text
-            ratings_parsed[:master_league] = rating_rows[3].css(".cell-rating-right").text
-        else
-            ratings_parsed[:great_league] = "0 / 0"
-            ratings_parsed[:ultra_league] = "0 / 0"
-            ratings_parsed[:master_league] = "0 / 0"
+        rating_rows.each do |row|
+            case row.css(".cell-rating-left").text.strip
+            when "Great League PVP Rating See all"
+                ratings_parsed[:great_league] = row.css(".cell-rating-right").text
+            when "Ultra League PVP Rating See all"
+                ratings_parsed[:ultra_league] = row.css(".cell-rating-right").text
+            when "Master League PVP Rating See all"
+                ratings_parsed[:master_league] = row.css(".cell-rating-right").text
+            end
         end
 
         profile_stats = {
