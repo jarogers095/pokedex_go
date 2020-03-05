@@ -110,11 +110,13 @@ class PokedexGo::CLI
         print "#{pokemon.number}:#{pokemon.name}"
         (26 - pokemon.name.length).times {print "_"}
         puts "/|\\_________LEAGUE_RANKS__________/|"
-        puts "| Type:     Grass, Poison          | Great  League: 4.5 / 5          |"
-        puts "| Max CP:   3300                   | Ultra  League: 3.5 / 5          |"
-        puts "| Attack:   123                    | Master League: 2.0 / 5          |"
-        puts "| Defense:  123                    |                                 |"
-        puts "| Stamina:  123                    |                                 |"
+        print "| Type:     #{pokemon.type}"
+        (23 - pokemon.type.length).times {print " "}
+        puts "| Great  League: 4.5 / 5          |"
+        puts "| Max CP:   #{pokemon.max_cp}                   | Ultra  League: 3.5 / 5          |"
+        puts "| Attack:   #{pokemon.attack}                    | Master League: 2.0 / 5          |"
+        puts "| Defense:  #{pokemon.defense}                    |                                 |"
+        puts "| Stamina:  #{pokemon.stamina}                    |                                 |"
         puts "|__________________________________|_________________________________|"
         puts "|\\___________VULNERABLE___________/|\\__________RESISTANT____________/|"
         puts "| Fire:     160%                   | Electric:  62.5%                |"
