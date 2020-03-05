@@ -37,11 +37,39 @@ class PokedexGo::Scraper
 
     def self.add_profile_stats(pokemon)
         profile_page = scrape_pokemon_profile(pokemon.profile_url)
+
+        pve_movesets_parsed = []
+        pvp_movesets_parsed = []
+
+        pve_movesets_html = profile_page.css(".pve-section .views-element-container .view .view-content .views-table tbody tr")
+        pve_movesets_html.each do |moveset|
+            moveset_hash = {
+                quick: moveset.css(".views-field-views-conditional-field div a div span").text,
+                charge: moveset.css(".views-field-views-conditional-field-1 div a div span").text,
+                atk_grade: moveset.css(".views-field-field-offensive-moveset-grade div").text,
+                def_grade: moveset.css(".views-field-field-defensive-moveset-grade div").text
+            }
+            pve_movesets_parsed << moveset_hash
+        end
+
+        pvp_movesets_html = profile_page.css(".pvp-section .views-element-container .view .view-content .views-table tbody tr")
+        pvp_movesets_html.each do |moveset|
+            moveset_hash = {
+                quick: moveset.css(".views-field-views-conditional-field div a div span").text,
+                charge_1: moveset.css(".views-field-views-conditional-field-1 div a div span")[0].text,
+                charge_2: moveset.css(".views-field-views-conditional-field-1 div a div span")[1].text,
+                grade: moveset.css(".views-field-field-offensive-moveset-grade div").text
+            }
+            pvp_movesets_parsed << moveset_hash
+        end
+
         profile_stats = {
             weight: profile_page.css(".pokemon-weight").text.strip().split("\n")[0],
             height: profile_page.css(".pokemon-height").text.strip().split("\n")[0],
             fast_moves: profile_page.css(".field--name-field-primary-moves .pokemon-page-moves-item"),
             charge_moves: profile_page.css(".field--name-field-secondary-moves .pokemon-page-moves-item"),
+            pve_movesets: pve_movesets_parsed,
+            pvp_movesets: pvp_movesets_parsed,
             female_ratio: profile_page.css(".female-percentage").text.strip(),
             weaknesses: profile_page.css("#weak-table"),
             resistances: profile_page.css("#resist-table")

@@ -103,13 +103,6 @@ class PokedexGo::CLI
     def self.view_pokemon_profile(pokemon)
         #view full profile of individual pokemon
         PokedexGo::Scraper.add_profile_stats(pokemon)
-        puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
-        puts "| \##{pokemon.number}    \u001b[31;1m#{pokemon.name}    [#{pokemon.type}]"
-        puts "| Atk: #{pokemon.attack}    Def: #{pokemon.defense}    Sta: #{pokemon.stamina}    Max CP: #{pokemon.max_cp}"
-        puts "| "
-        puts "| Weight: #{pokemon.weight}    Height: #{pokemon.height}"
-        puts "|                                                               |"
-        puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
-        puts ""
+
     end
 end
