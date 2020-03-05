@@ -25,13 +25,13 @@ class PokedexGo::CLI
 
     def self.main_menu()
         #Root of menu system
-        puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=Main Menu=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
-        puts "|                                                               |"
-        puts "| 1: List all available Pokemon                                 |"
-        puts "| 2: List all Pokemon of a specific type                        |"
-        puts "| 3: View individual Pokemon profile                            |"
-        puts "|                                                               |"
-        puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
+        puts " ___________________________________________________________________"
+        puts "|\\__________________________MAIN_MENU______________________________/|"
+        puts "|                                                                   |"
+        puts "|             1: List all available Pokemon                         |"
+        puts "|             2: List all Pokemon of a specific type                |"
+        puts "|             3: View individual Pokemon profile                    |"
+        puts "|___________________________________________________________________|"
         puts ""
 
         user_input = 0
@@ -67,13 +67,13 @@ class PokedexGo::CLI
 
     def self.list_pokemon_of_type()
         #lists all pokemon of given type
-        puts ".-=-=-=-=-=-=-=-=-=-=-=-=-=Type Menu=-=-=-=-=-=-=-=-=-=-=-=-=-=-."
-        puts "|                                                               |"
-        puts "| #{CLR[:green]}Bug       #{CLR[:magenta]}Dark      #{CLR[:white]}Dragon     #{CLR[:yellow]}Electric    #{CLR[:cyan]}Fairy     #{CLR[:red]}Fighting |"
-        puts "| #{CLR[:red]}Fire      #{CLR[:white]}Flying    #{CLR[:magenta]}Ghost      #{CLR[:green]}Grass       #{CLR[:black]}Ground    #{CLR[:cyan]}Ice      |"
-        puts "| #{CLR[:white]}Normal    #{CLR[:magenta]}Poison    #{CLR[:red]}Psychic    #{CLR[:black]}Rock        #{CLR[:white]}Steel     #{CLR[:blue]}Water#{CLR[:reset]}    |"
-        puts "|                                                               |"
-        puts "`-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'"
+        puts " ___________________________________________________________________"
+        puts "|\\__________________________TYPE_MENU______________________________/|"
+        puts "|                                                                   |"
+        puts "| #{CLR[:green]}Bug        #{CLR[:magenta]}Dark       #{CLR[:white]}Dragon     #{CLR[:yellow]}Electric     #{CLR[:cyan]}Fairy      #{CLR[:red]}Fighting |"
+        puts "| #{CLR[:red]}Fire       #{CLR[:white]}Flying     #{CLR[:magenta]}Ghost      #{CLR[:green]}Grass        #{CLR[:black]}Ground     #{CLR[:cyan]}Ice      |"
+        puts "| #{CLR[:white]}Normal     #{CLR[:magenta]}Poison     #{CLR[:red]}Psychic    #{CLR[:black]}Rock         #{CLR[:white]}Steel      #{CLR[:blue]}Water#{CLR[:reset]}    |"
+        puts "|___________________________________________________________________|"
         puts ""
 
         user_input = "none"
