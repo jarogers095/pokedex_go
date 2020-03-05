@@ -104,5 +104,26 @@ class PokedexGo::CLI
         #view full profile of individual pokemon
         PokedexGo::Scraper.add_profile_stats(pokemon)
 
+        puts " ____________________________________________________________________"
+        print "|\\_#"
+        (3 - pokemon.number.to_s.length).times {print "0"}
+        print "#{pokemon.number}:#{pokemon.name}"
+        (26 - pokemon.name.length).times {print "_"}
+        puts "/|\\_________LEAGUE_RANKS__________/|"
+        puts "| Type:     Grass, Poison          | Great  League: 4.5 / 5          |"
+        puts "| Max CP:   3300                   | Ultra  League: 3.5 / 5          |"
+        puts "| Attack:   123                    | Master League: 2.0 / 5          |"
+        puts "| Defense:  123                    |                                 |"
+        puts "| Stamina:  123                    |                                 |"
+        puts "|__________________________________|_________________________________|"
+        puts "|\\___________VULNERABLE___________/|\\__________RESISTANT____________/|"
+        puts "| Fire:     160%                   | Electric:  62.5%                |"
+        puts "| Flying:   160%                   | Fairy:     62.5%                |"
+        puts "| Ice:      160%                   | Fighting:  62.5%                |"
+        puts "| Psychic:  160%                   | Grass:     39.1%                |"
+        puts "|                                  | Water:     62.5%                |"
+        puts "|__________________________________|_________________________________|"
+
+
     end
 end
