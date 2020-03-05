@@ -83,17 +83,17 @@ class PokedexGo::Scraper
             resistances_parsed << resistance_hash
         end
 
-        rating_rows = profile_page.css(".pokemon-ratings-container .rating_cell_item")
+        rating_rows = profile_page.css(".pokemon-ratings-container .rating-cell-item")
 
         case rating_rows.count
         when 5
-            ratings_parsed[:great_league] = rating_rows[2].css(".cell-rating-right")
-            ratings_parsed[:ultra_league] = rating_rows[3].css(".cell-rating-right")
-            ratings_parsed[:master_league] = rating_rows[4].css(".cell-rating-right")
+            ratings_parsed[:great_league] = rating_rows[2].css(".cell-rating-right").text
+            ratings_parsed[:ultra_league] = rating_rows[3].css(".cell-rating-right").text
+            ratings_parsed[:master_league] = rating_rows[4].css(".cell-rating-right").text
         when 4
-            ratings_parsed[:great_league] = rating_rows[1].css(".cell-rating-right")
-            ratings_parsed[:ultra_league] = rating_rows[2].css(".cell-rating-right")
-            ratings_parsed[:master_league] = rating_rows[3].css(".cell-rating-right")
+            ratings_parsed[:great_league] = rating_rows[1].css(".cell-rating-right").text
+            ratings_parsed[:ultra_league] = rating_rows[2].css(".cell-rating-right").text
+            ratings_parsed[:master_league] = rating_rows[3].css(".cell-rating-right").text
         else
             ratings_parsed[:great_league] = "0 / 0"
             ratings_parsed[:ultra_league] = "0 / 0"

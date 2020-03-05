@@ -112,9 +112,15 @@ class PokedexGo::CLI
         puts "/|\\_________LEAGUE_RANKS__________/|"
         print "| Type:     #{pokemon.type.capitalize}"
         (23 - pokemon.type.length).times {print " "}
-        puts "| Great  League: 4.5 / 5          |"
-        puts "| Max CP:   #{pokemon.max_cp}                   | Ultra  League: 3.5 / 5          |"
-        puts "| Attack:   #{pokemon.attack}                    | Master League: 2.0 / 5          |"
+        print "| Great  League:  #{pokemon.ratings[:great_league]}"
+        (16 - pokemon.ratings[:great_league].length).times {print " "}
+        puts "|"
+        print "| Max CP:   #{pokemon.max_cp}                   | Ultra  League:  #{pokemon.ratings[:ultra_league]}"
+        (16 - pokemon.ratings[:ultra_league].length).times {print " "}
+        puts "|"
+        print "| Attack:   #{pokemon.attack}                    | Master League:  #{pokemon.ratings[:master_league]}"
+        (16 - pokemon.ratings[:master_league].length).times {print " "}
+        puts "|"
         puts "| Defense:  #{pokemon.defense}                    |                                 |"
         puts "| Stamina:  #{pokemon.stamina}                    |                                 |"
         puts "|__________________________________|_________________________________|"
