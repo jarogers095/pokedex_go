@@ -41,6 +41,7 @@ class PokedexGo::Scraper
         pve_movesets_parsed = []
         pvp_movesets_parsed = []
         weaknesses_parsed = []
+        resistances_parsed = []
 
         pve_movesets_html = profile_page.css(".pve-section .views-element-container .view .view-content .views-table tbody tr")
         pve_movesets_html.each do |moveset|
@@ -67,10 +68,19 @@ class PokedexGo::Scraper
         weaknesses_html = profile_page.css("#weak-table tr")
         weaknesses_html.each do |weakness|
             weakness_hash = {
-                type: weakness.css(".type-img-cell img").attribute("src").value).chomp(".gif").capitalize,
+                type: File.basename(weakness.css(".type-img-cell img").attribute("src").value).chomp(".gif").capitalize,
                 amount: weakness.css(".type-weak-value").text
             }
             weaknesses_parsed << weakness_hash
+        end
+
+        resistances_html = profile_page.css("#resist-table tr")
+        resistances_html.each do |resistance|
+            resistance_hash = {
+                type: File.basename(resistance.css(".type-img-cell img").attribute("src").value).chomp(".gif").capitalize,
+                amount: resistance.css(".type-resist-value").text
+            }
+            resistances_parsed << resistance_hash
         end
 
         profile_stats = {
@@ -82,7 +92,7 @@ class PokedexGo::Scraper
             pvp_movesets: pvp_movesets_parsed,
             female_ratio: profile_page.css(".female-percentage").text.strip(),
             weaknesses: weaknesses_parsed,
-            resistances: profile_page.css("#resist-table")
+            resistances: resistances_parsed
         }
 
         pokemon.add_stats(profile_stats)

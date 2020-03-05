@@ -119,13 +119,14 @@ class PokedexGo::CLI
         puts "| Stamina:  #{pokemon.stamina}                    |                                 |"
         puts "|__________________________________|_________________________________|"
         puts "|\\___________VULNERABLE___________/|\\__________RESISTANT____________/|"
-        puts "| Fire:     160%                   | Electric:  62.5%                |"
-        puts "| Flying:   160%                   | Fairy:     62.5%                |"
-        puts "| Ice:      160%                   | Fighting:  62.5%                |"
-        puts "| Psychic:  160%                   | Grass:     39.1%                |"
-        puts "|                                  | Water:     62.5%                |"
-        puts "|__________________________________|_________________________________|"
+        pokemon.weaknesses.each_with_index do |weakness, index|
+            print "| #{weakness[:type]}:"
+            (9 - weakness[:type].length).times {print " "}
+            puts "#{weakness[:amount]}                   | "
+        end
 
+        
+ 
 
     end
 end
