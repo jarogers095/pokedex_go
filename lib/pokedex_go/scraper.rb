@@ -26,7 +26,6 @@ class PokedexGo::Scraper
                 attack: entry.attribute("data-atk").value,
                 defense: entry.attribute("data-def").value,
                 max_cp: entry.attribute("data-cp").value,
-                pve_rating: entry.attribute("data-rating").value,
                 type: entry.attribute("data-type").value,
                 profile_url: entry.css("td a").first.attribute("href").value,
             }
@@ -42,6 +41,7 @@ class PokedexGo::Scraper
         pvp_movesets_parsed = []
         weaknesses_parsed = []
         resistances_parsed = []
+        ratings_parsed = {}
 
         pve_movesets_html = profile_page.css(".pve-section .views-element-container .view .view-content .views-table tbody tr")
         pve_movesets_html.each do |moveset|
@@ -83,6 +83,23 @@ class PokedexGo::Scraper
             resistances_parsed << resistance_hash
         end
 
+        rating_rows = profile_page.css(".pokemon-ratings-container .rating_cell_item")
+
+        case rating_rows.count
+        when 5
+            ratings_parsed[:great_league] = rating_rows[2].css(".cell-rating-right")
+            ratings_parsed[:ultra_league] = rating_rows[3].css(".cell-rating-right")
+            ratings_parsed[:master_league] = rating_rows[4].css(".cell-rating-right")
+        when 4
+            ratings_parsed[:great_league] = rating_rows[1].css(".cell-rating-right")
+            ratings_parsed[:ultra_league] = rating_rows[2].css(".cell-rating-right")
+            ratings_parsed[:master_league] = rating_rows[3].css(".cell-rating-right")
+        else
+            ratings_parsed[:great_league] = "0 / 0"
+            ratings_parsed[:ultra_league] = "0 / 0"
+            ratings_parsed[:master_league] = "0 / 0"
+        end
+
         profile_stats = {
             weight: profile_page.css(".pokemon-weight").text.strip().split("\n")[0],
             height: profile_page.css(".pokemon-height").text.strip().split("\n")[0],
@@ -92,7 +109,8 @@ class PokedexGo::Scraper
             pvp_movesets: pvp_movesets_parsed,
             female_ratio: profile_page.css(".female-percentage").text.strip(),
             weaknesses: weaknesses_parsed,
-            resistances: resistances_parsed
+            resistances: resistances_parsed,
+            ratings: ratings_parsed
         }
 
         pokemon.add_stats(profile_stats)

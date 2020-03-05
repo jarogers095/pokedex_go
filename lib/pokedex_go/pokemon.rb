@@ -10,11 +10,11 @@ class PokedexGo::Pokemon
         :number, :gen, :buddy_dist,
         :egg, :evo_cost, :new_move_cost,
         :name, :stamina, :attack,
-        :defense, :max_cp, :pve_rating,
-        :type, :profile_url, :weight,
-        :height, :fast_moves, :charge_moves,
-        :pve_movesets, :pvp_movesets, :female_ratio,
-        :weaknesses, :resistances
+        :defense, :max_cp, :type, 
+        :profile_url, :weight, :height, 
+        :fast_moves, :charge_moves, :pve_movesets, 
+        :pvp_movesets, :female_ratio, :weaknesses, 
+        :resistances, :ratings
     )
 
     def initialize(attributes = {})
