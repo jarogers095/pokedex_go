@@ -110,7 +110,7 @@ class PokedexGo::CLI
         print "#{pokemon.number}:#{pokemon.name}"
         (26 - pokemon.name.length).times {print "_"}
         puts "/|\\_________LEAGUE_RANKS__________/|"
-        print "| Type:     #{pokemon.type}"
+        print "| Type:     #{pokemon.type.capitalize}"
         (23 - pokemon.type.length).times {print " "}
         puts "| Great  League: 4.5 / 5          |"
         puts "| Max CP:   #{pokemon.max_cp}                   | Ultra  League: 3.5 / 5          |"
@@ -122,11 +122,16 @@ class PokedexGo::CLI
         pokemon.weaknesses.each_with_index do |weakness, index|
             print "| #{weakness[:type]}:"
             (9 - weakness[:type].length).times {print " "}
-            puts "#{weakness[:amount]}                   | "
+            print "#{weakness[:amount]}                   | "
+            if (pokemon.resistances[index] != nil)
+                resistance = pokemon.resistances[index]
+                print "#{resistance[:type]}:"
+                (9 - resistance[:type].length).times {print " "}
+                puts "#{resistance[:amount]}                 |"
+            else
+                puts "                                |"
+            end
         end
-
-        
- 
-
+        puts "|__________________________________|_________________________________|"
     end
 end
