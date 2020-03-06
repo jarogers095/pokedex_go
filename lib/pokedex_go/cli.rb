@@ -109,17 +109,16 @@ class PokedexGo::CLI
         PokedexGo::Scraper.add_profile_stats(pokemon)
 
         puts " ____________________________________________________________________"
-        print "|\\_#"
-        (3 - pokemon.number.to_s.length).times {print "0"}
-        print "#{pokemon.number}:#{pokemon.name}"
-        (26 - pokemon.name.length).times {print "_"}
+        print "|\\____________POKEMON_____________"
         puts "/|\\_________LEAGUE_RANKS__________/|"
-        print "| Type:     #{pokemon.type.capitalize}"
-        (23 - pokemon.type.length).times {print " "}
+        print "| #"
+        (3 - pokemon.number.to_s.length).times {print "0"}
+        print "#{pokemon.number}"
+        (32 - pokemon.number.to_s.length).times {print " "}
         print "| Great  League:  #{pokemon.ratings[:great_league]}"
         (16 - pokemon.ratings[:great_league].length).times {print " "}
         puts "|"
-        print "| Max CP:   #{pokemon.max_cp}                   | Ultra  League:  #{pokemon.ratings[:ultra_league]}"
+        print "| Name: #{pokemon.name}                   | Ultra  League:  #{pokemon.ratings[:ultra_league]}"
         (16 - pokemon.ratings[:ultra_league].length).times {print " "}
         puts "|"
         print "| Attack:   #{pokemon.attack}                    | Master League:  #{pokemon.ratings[:master_league]}"
