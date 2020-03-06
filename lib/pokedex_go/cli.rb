@@ -29,8 +29,8 @@ class PokedexGo::CLI
         puts "|\\__________________________MAIN_MENU______________________________/|"
         puts "|                                                                   |"
         puts "|             1: List all available Pokemon                         |"
-        puts "|             2: List all Pokemon of a specific type                |"
-        puts "|             3: View individual Pokemon profile                    |"
+        puts "|             2: Search by Pokemon type                             |"
+        puts "|             3: Search by Pokemon name or number                   |"
         puts "|___________________________________________________________________|"
         puts ""
 
@@ -70,8 +70,8 @@ class PokedexGo::CLI
         puts " ___________________________________________________________________"
         puts "|\\__________________________TYPE_MENU______________________________/|"
         puts "|                                                                   |"
-        puts "| #{CLR[:green]}Bug        #{CLR[:magenta]}Dark       #{CLR[:white]}Dragon     #{CLR[:yellow]}Electric     #{CLR[:cyan]}Fairy      #{CLR[:red]}Fighting |"
-        puts "| #{CLR[:red]}Fire       #{CLR[:white]}Flying     #{CLR[:magenta]}Ghost      #{CLR[:green]}Grass        #{CLR[:black]}Ground     #{CLR[:cyan]}Ice      |"
+        puts "| #{CLR[:green]}Bug        #{CLR[:magenta]}Dark       #{CLR[:white]}Dragon     #{CLR[:yellow]}Electric     #{CLR[:cyan]}Fairy      #{CLR[:red]}Fighting#{CLR[:reset]} |"
+        puts "| #{CLR[:red]}Fire       #{CLR[:white]}Flying     #{CLR[:magenta]}Ghost      #{CLR[:green]}Grass        #{CLR[:black]}Ground     #{CLR[:cyan]}Ice#{CLR[:reset]}      |"
         puts "| #{CLR[:white]}Normal     #{CLR[:magenta]}Poison     #{CLR[:red]}Psychic    #{CLR[:black]}Rock         #{CLR[:white]}Steel      #{CLR[:blue]}Water#{CLR[:reset]}    |"
         puts "|___________________________________________________________________|"
         puts ""
@@ -95,7 +95,7 @@ class PokedexGo::CLI
             puts "#{mon.number}: #{mon.name} (#{mon.type})"
         end
         
-        print "Select a Pokemon: "
+        print "Enter a Pokemon's NAME or NUMBER to see their profile: "
         user_input = gets.chomp.to_i
         view_pokemon_profile(PokedexGo::Pokemon.all.detect{|mon| mon.number == user_input})
     end
