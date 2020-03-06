@@ -47,7 +47,7 @@ class PokedexGo::CLI
                 list_pokemon_of_type()
                 break
             when 3
-                view_pokemon_profile()
+                search_by_name_or_number()
                 break
             else
                 puts "#{user_input} is an invalid selection"
@@ -95,9 +95,13 @@ class PokedexGo::CLI
             puts "#{mon.number}: #{mon.name} (#{mon.type})"
         end
         
-        print "Enter a Pokemon's NAME or NUMBER to see their profile: "
+        print "Enter a Pokemon's NUMBER to see their profile: "
         user_input = gets.chomp.to_i
         view_pokemon_profile(PokedexGo::Pokemon.all.detect{|mon| mon.number == user_input})
+    end
+
+    def self.search_by_name_or_number()
+
     end
 
     def self.view_pokemon_profile(pokemon)
@@ -139,5 +143,35 @@ class PokedexGo::CLI
             end
         end
         puts "|__________________________________|_________________________________|"
+        puts " ____________________________________________________________________"
+        puts "|                                                                    |"
+        print "|              1: View #{pokemon.name}\'s movesets"
+        (35 - pokemon.name.length).times {print " "}
+        puts "|"
+        print "|              2: View #{pokemon.name}\'s move pool"                  
+        (34 - pokemon.name.length).times {print " "}
+        puts "|"
+        puts "|              3: Return to main menu                                |"
+        puts "|____________________________________________________________________|"
+
+        user_input = 0
+
+        while user_input != 1 && user_input != 2 && user_input != 3
+            print "Enter an option: "
+            user_input = gets.chomp.to_i
+            case user_input
+            when 1
+                list_all_pokemon()
+                break
+            when 2
+                list_pokemon_of_type()
+                break
+            when 3
+                search_by_name_or_number()
+                break
+            else
+                puts "#{user_input} is an invalid selection"
+            end
+        end
     end
 end
