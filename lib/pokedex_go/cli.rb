@@ -1,5 +1,5 @@
 class PokedexGo::CLI
-    CLR = {
+    FX = {
         black: "\u001b[38;5;136m",
         red: "\u001b[31m",
         green: "\u001b[32;1m",
@@ -8,12 +8,14 @@ class PokedexGo::CLI
         magenta: "\u001b[35m",
         cyan: "\u001b[36m",
         white: "\u001b[37m",
-        reset: "\u001b[0m"
+        reset: "\u001b[0m",
+
     }
 
     def self.call()
         #entrypoint
-        welcome()
+        #welcome()
+        PokedexGo::Adv_CLI.call()
     end
 
     def self.welcome()
@@ -70,9 +72,9 @@ class PokedexGo::CLI
         puts " ___________________________________________________________________"
         puts "|\\__________________________TYPE_MENU______________________________/|"
         puts "|                                                                   |"
-        puts "| #{CLR[:green]}Bug        #{CLR[:magenta]}Dark       #{CLR[:white]}Dragon     #{CLR[:yellow]}Electric     #{CLR[:cyan]}Fairy      #{CLR[:red]}Fighting#{CLR[:reset]} |"
-        puts "| #{CLR[:red]}Fire       #{CLR[:white]}Flying     #{CLR[:magenta]}Ghost      #{CLR[:green]}Grass        #{CLR[:black]}Ground     #{CLR[:cyan]}Ice#{CLR[:reset]}      |"
-        puts "| #{CLR[:white]}Normal     #{CLR[:magenta]}Poison     #{CLR[:red]}Psychic    #{CLR[:black]}Rock         #{CLR[:white]}Steel      #{CLR[:blue]}Water#{CLR[:reset]}    |"
+        puts "| #{FX[:green]}Bug        #{FX[:magenta]}Dark       #{FX[:white]}Dragon     #{FX[:yellow]}Electric     #{FX[:cyan]}Fairy      #{FX[:red]}Fighting#{FX[:reset]} |"
+        puts "| #{FX[:red]}Fire       #{FX[:white]}Flying     #{FX[:magenta]}Ghost      #{FX[:green]}Grass        #{FX[:black]}Ground     #{FX[:cyan]}Ice#{FX[:reset]}      |"
+        puts "| #{FX[:white]}Normal     #{FX[:magenta]}Poison     #{FX[:red]}Psychic    #{FX[:black]}Rock         #{FX[:white]}Steel      #{FX[:blue]}Water#{FX[:reset]}    |"
         puts "|___________________________________________________________________|"
         puts ""
 
@@ -108,69 +110,72 @@ class PokedexGo::CLI
         #view full profile of individual pokemon
         PokedexGo::Scraper.add_profile_stats(pokemon)
 
-        puts " _____________________________________________________________________"
-        print "|"
-        print center_string(pokemon.name.upcase, 34, "_")
-        print "|"
-        print center_string("LEAGUE_RANKS", 34, "_")
-        puts "|"
+        puts "╔═════════════════════════════════════════════════════════════════════╗"
+        print "║"
+        print center_string(pokemon.name.upcase, 69, " ")
+        puts "║"
+        puts "╚═════════════════════════════════════════════════════════════════════╝"
 
 
-        print "|"
+        puts "╭──────────────────────────────────┬──────────────────────────────────╮"
+        print "│"
+        print center_string("Stats", 34, " ")
+        print "│"
+        print center_string("LEAGUE RANKS", 34, " ")
+        puts "│"
+        puts "├──────────────────────────────────┼──────────────────────────────────┤"
+
+
+        print "│"
         print align_left(" Number:   #{pokemon.number}", 34, " ")
-        print "|"
+        print "│"
         print align_left(" Great League:  #{pokemon.ratings[:great_league]}", 34, " ")
-        puts "|"
+        puts "│"
 
 
-        print "|"
+        print "│"
         print align_left(" Attack:   #{pokemon.attack}", 34, " ")
-        print "|"
+        print "│"
         print align_left(" Ultra League:  #{pokemon.ratings[:ultra_league]}", 34, " ")
-        puts "|"
+        puts "│"
 
-        print "|"
+        print "│"
         print align_left(" Defense:  #{pokemon.defense}", 34, " ")
-        print "|"
+        print "│"
         print align_left(" Master League:  #{pokemon.ratings[:master_league]}", 34, " ")
-        puts "|"
-        puts "|__________________________________|__________________________________|"
+        puts "│"
+        puts "╰──────────────────────────────────┴──────────────────────────────────╯"
 
-        print "|"
-        print center_string("VULNERABLE", 34, "_")
-        print "|"
-        print center_string("RESISTANT", 34, "_")
-        puts "|"
+        puts "╭──────────────────────────────────┬──────────────────────────────────╮"
+        print "│"
+        print center_string("VULNERABLE", 34, " ")
+        print "│"
+        print center_string("RESISTANT", 34, " ")
+        puts "│"
+        puts "├──────────────────────────────────┼──────────────────────────────────┤"
+        
 
 
         pokemon.weaknesses.each_with_index do |weakness, index|
-            print "|"
+            print "│"
             print align_left(" #{weakness[:type]}:", 10, " ")
             print align_left(" #{weakness[:amount]}", 24, " ")
-            print "|"
+            print "│"
             if (pokemon.resistances[index] != nil)
                 resistance = pokemon.resistances[index]
                 print align_left(" #{resistance[:type]}:", 10, " ")
                 print align_left(" #{resistance[:amount]}", 24, " ")                 
-                puts "|"
+                puts "│"
             else
-                puts "                                |"
+                puts "                                  │"
             end
         end
-        puts "|__________________________________|__________________________________|"
-        puts " _____________________________________________________________________"
-        puts "|                                                                    |"
-        print "|              1: View #{pokemon.name}\'s PVE movesets"
-        (31 - pokemon.name.length).times {print " "}
-        puts "|"
-        print "|              2: View #{pokemon.name}\'s PVP movesets"
-        (31 - pokemon.name.length).times {print " "}
-        puts "|"
-        print "|              3: View #{pokemon.name}\'s move pool"                  
-        (34 - pokemon.name.length).times {print " "}
-        puts "|"
-        puts "|              4: Return to main menu                                 |"
-        puts "|_____________________________________________________________________|"
+        puts "╰──────────────────────────────────┴──────────────────────────────────╯"
+        puts "╭──────────────────────────────────┬──────────────────────────────────╮"
+        puts "│                                  │                                  │"
+        puts "├──────────────────────────────────┼──────────────────────────────────┤"
+        puts "│                                  │                                  │"
+        puts "╰──────────────────────────────────┴──────────────────────────────────╯"
 
         user_input = 0
 
@@ -197,35 +202,47 @@ class PokedexGo::CLI
 
     def self.view_pokemon_pve_movesets(pokemon)
 
-        puts " ___________________________________________________________________"
-        puts "|\\__________________________PVE_MOVESETS__________________________/|"
-        puts "|                                                                   |"
+        puts " _____________________________________________________________________"
+        print "|"
+        print center_string("PVE_MOVESETS", 69, "_")
+        puts "|"
+        puts "|                                                                     |"
+        puts "|________Quick___________________Charge___________Atk_Grade_Def_Grade_|"
         pokemon.pve_movesets.each do |moveset|
-            puts "Quick: #{moveset[:quick]} Charge: #{moveset[:charge]}"
-            puts "Atk Grade: #{moveset[:atk_grade]} Def Grade: #{moveset[:def_grade]}"
-            puts "-----------------------------------------------------------------"
+            print "|"
+            print center_string(moveset[:quick], 22, " ")
+            print "|"
+            print center_string(moveset[:charge], 24, " ")
+            print "|"
+            print center_string(moveset[:atk_grade], 10, " ")
+            print "|"
+            print center_string(moveset[:def_grade], 10, " ")   
+            puts "|"
+            puts "|----------------------|------------------------|----------|----------|"
         end
-        puts "|____________________________________________________________________|"
+        puts     "|______________________|________________________|__________|__________|"
     end
 
     def self.view_pokemon_pvp_movesets(pokemon)
-        puts " __________________________________________________________________"
-        puts "|\\__________________________PVP_MOVESETS__________________________/|"
-        puts "|                                                                  |"
-        puts "|_______Quick_____________Charge 1_____________Charge 2______Grade_|"
+        puts " _____________________________________________________________________"
+        print "|"
+        print center_string("PVP_MOVESETS", 69, "_")
+        puts "|"
+        puts "|                                                                     |"
+        puts "|________Quick______________Charge 1______________Charge 2______Grade_|"
         pokemon.pvp_movesets.each do |moveset|
             print "|"
-            print center_string(moveset[:quick], 19, " ")
+            print center_string(moveset[:quick], 20, " ")
             print "|"
-            print center_string(moveset[:charge_1], 19, " ")
+            print center_string(moveset[:charge_1], 20, " ")
             print "|"
-            print center_string(moveset[:charge_2], 19, " ")
+            print center_string(moveset[:charge_2], 20, " ")
             print "|"
             print center_string(moveset[:grade], 6, " ")   
             puts "|"
-            puts "|-------------------|-------------------|-------------------|------|"
+            puts "|--------------------|--------------------|--------------------|------|"
         end
-        puts "|___________________|___________________|___________________|______|"
+        puts "|____________________|____________________|____________________|______|"
     end
 
     def self.center_string(string, gap, filler_character)
