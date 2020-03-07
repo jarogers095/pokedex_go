@@ -109,45 +109,56 @@ class PokedexGo::CLI
         PokedexGo::Scraper.add_profile_stats(pokemon)
 
         puts " _____________________________________________________________________"
-        print "|\\"
-        print center_string(pokemon.name.upcase, 32, "_")
-        print "/|\\"
-        print center_string("LEAGUE_RANKS", 32, "_")
-        puts "/|"
-
-
-        print "| Number: ##{pokemon.number}"
-        (32 - pokemon.number.to_s.length).times {print " "}
-        print "| Great  League:  #{pokemon.ratings[:great_league]}"
-        (16 - pokemon.ratings[:great_league].length).times {print " "}
+        print "|"
+        print center_string(pokemon.name.upcase, 34, "_")
+        print "|"
+        print center_string("LEAGUE_RANKS", 34, "_")
         puts "|"
 
-        
-        print "| Name: #{pokemon.name}                   | Ultra  League:  #{pokemon.ratings[:ultra_league]}"
-        (16 - pokemon.ratings[:ultra_league].length).times {print " "}
+
+        print "|"
+        print align_left(" Number:   #{pokemon.number}", 34, " ")
+        print "|"
+        print align_left(" Great League:  #{pokemon.ratings[:great_league]}", 34, " ")
         puts "|"
-        print "| Attack:   #{pokemon.attack}                    | Master League:  #{pokemon.ratings[:master_league]}"
-        (16 - pokemon.ratings[:master_league].length).times {print " "}
+
+
+        print "|"
+        print align_left(" Attack:   #{pokemon.attack}", 34, " ")
+        print "|"
+        print align_left(" Ultra League:  #{pokemon.ratings[:ultra_league]}", 34, " ")
         puts "|"
-        puts "| Defense:  #{pokemon.defense}                    |                                 |"
-        puts "| Stamina:  #{pokemon.stamina}                    |                                 |"
-        puts "|__________________________________|_________________________________|"
-        puts "|\\___________VULNERABLE___________/|\\__________RESISTANT____________/|"
+
+        print "|"
+        print align_left(" Defense:  #{pokemon.defense}", 34, " ")
+        print "|"
+        print align_left(" Master League:  #{pokemon.ratings[:master_league]}", 34, " ")
+        puts "|"
+        puts "|__________________________________|__________________________________|"
+
+        print "|"
+        print center_string("VULNERABLE", 34, "_")
+        print "|"
+        print center_string("RESISTANT", 34, "_")
+        puts "|"
+
+
         pokemon.weaknesses.each_with_index do |weakness, index|
-            print "| #{weakness[:type]}:"
-            (9 - weakness[:type].length).times {print " "}
-            print "#{weakness[:amount]}                   | "
+            print "|"
+            print align_left(" #{weakness[:type]}:", 10, " ")
+            print align_left(" #{weakness[:amount]}", 24, " ")
+            print "|"
             if (pokemon.resistances[index] != nil)
                 resistance = pokemon.resistances[index]
-                print "#{resistance[:type]}:"
-                (9 - resistance[:type].length).times {print " "}
-                puts "#{resistance[:amount]}                 |"
+                print align_left(" #{resistance[:type]}:", 10, " ")
+                print align_left(" #{resistance[:amount]}", 24, " ")                 
+                puts "|"
             else
                 puts "                                |"
             end
         end
-        puts "|__________________________________|_________________________________|"
-        puts " ____________________________________________________________________"
+        puts "|__________________________________|__________________________________|"
+        puts " _____________________________________________________________________"
         puts "|                                                                    |"
         print "|              1: View #{pokemon.name}\'s PVE movesets"
         (31 - pokemon.name.length).times {print " "}
@@ -158,8 +169,8 @@ class PokedexGo::CLI
         print "|              3: View #{pokemon.name}\'s move pool"                  
         (34 - pokemon.name.length).times {print " "}
         puts "|"
-        puts "|              4: Return to main menu                                |"
-        puts "|____________________________________________________________________|"
+        puts "|              4: Return to main menu                                 |"
+        puts "|_____________________________________________________________________|"
 
         user_input = 0
 
@@ -224,5 +235,15 @@ class PokedexGo::CLI
         ((gap - string.length) / 2).times {centered_string << filler_character}
         ((gap - string.length) % 2).times {centered_string << filler_character}
         return centered_string
+    end
+
+    def self.align_left(string, gap, filler_character)
+        aligned_string = string
+        (gap - string.length).times {aligned_string << filler_character}
+        return aligned_string
+    end
+
+    def self.align_right()
+
     end
 end
