@@ -108,16 +108,21 @@ class PokedexGo::CLI
         #view full profile of individual pokemon
         PokedexGo::Scraper.add_profile_stats(pokemon)
 
-        puts " ____________________________________________________________________"
-        print "|\\____________POKEMON_____________"
-        puts "/|\\_________LEAGUE_RANKS__________/|"
-        print "| #"
-        (3 - pokemon.number.to_s.length).times {print "0"}
-        print "#{pokemon.number}"
+        puts " _____________________________________________________________________"
+        print "|\\"
+        print center_string(pokemon.name.upcase, 32, "_")
+        print "/|\\"
+        print center_string("LEAGUE_RANKS", 32, "_")
+        puts "/|"
+
+
+        print "| Number: ##{pokemon.number}"
         (32 - pokemon.number.to_s.length).times {print " "}
         print "| Great  League:  #{pokemon.ratings[:great_league]}"
         (16 - pokemon.ratings[:great_league].length).times {print " "}
         puts "|"
+
+        
         print "| Name: #{pokemon.name}                   | Ultra  League:  #{pokemon.ratings[:ultra_league]}"
         (16 - pokemon.ratings[:ultra_league].length).times {print " "}
         puts "|"
@@ -144,18 +149,21 @@ class PokedexGo::CLI
         puts "|__________________________________|_________________________________|"
         puts " ____________________________________________________________________"
         puts "|                                                                    |"
-        print "|              1: View #{pokemon.name}\'s movesets"
-        (35 - pokemon.name.length).times {print " "}
+        print "|              1: View #{pokemon.name}\'s PVE movesets"
+        (31 - pokemon.name.length).times {print " "}
         puts "|"
-        print "|              2: View #{pokemon.name}\'s move pool"                  
+        print "|              2: View #{pokemon.name}\'s PVP movesets"
+        (31 - pokemon.name.length).times {print " "}
+        puts "|"
+        print "|              3: View #{pokemon.name}\'s move pool"                  
         (34 - pokemon.name.length).times {print " "}
         puts "|"
-        puts "|              3: Return to main menu                                |"
+        puts "|              4: Return to main menu                                |"
         puts "|____________________________________________________________________|"
 
         user_input = 0
 
-        while user_input != 1 && user_input != 2 && user_input != 3
+        while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
             print "Enter an option: "
             user_input = gets.chomp.to_i
             case user_input
@@ -163,11 +171,13 @@ class PokedexGo::CLI
                 view_pokemon_pve_movesets(pokemon)
                 break
             when 2
-                list_pokemon_of_type()
+                view_pokemon_pvp_movesets(pokemon)
                 break
             when 3
                 search_by_name_or_number()
                 break
+            when 4
+                main_menu()
             else
                 puts "#{user_input} is an invalid selection"
             end
@@ -185,5 +195,34 @@ class PokedexGo::CLI
             puts "-----------------------------------------------------------------"
         end
         puts "|____________________________________________________________________|"
+    end
+
+    def self.view_pokemon_pvp_movesets(pokemon)
+        puts " __________________________________________________________________"
+        puts "|\\__________________________PVP_MOVESETS__________________________/|"
+        puts "|                                                                  |"
+        puts "|_______Quick_____________Charge 1_____________Charge 2______Grade_|"
+        pokemon.pvp_movesets.each do |moveset|
+            print "|"
+            print center_string(moveset[:quick], 19, " ")
+            print "|"
+            print center_string(moveset[:charge_1], 19, " ")
+            print "|"
+            print center_string(moveset[:charge_2], 19, " ")
+            print "|"
+            print center_string(moveset[:grade], 6, " ")   
+            puts "|"
+            puts "|-------------------|-------------------|-------------------|------|"
+        end
+        puts "|___________________|___________________|___________________|______|"
+    end
+
+    def self.center_string(string, gap, filler_character)
+        centered_string = ""
+        ((gap - string.length) / 2).times {centered_string << filler_character}
+        centered_string << string
+        ((gap - string.length) / 2).times {centered_string << filler_character}
+        ((gap - string.length) % 2).times {centered_string << filler_character}
+        return centered_string
     end
 end
