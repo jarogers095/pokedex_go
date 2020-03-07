@@ -160,7 +160,7 @@ class PokedexGo::CLI
             user_input = gets.chomp.to_i
             case user_input
             when 1
-                list_all_pokemon()
+                view_pokemon_pve_movesets(pokemon)
                 break
             when 2
                 list_pokemon_of_type()
@@ -172,5 +172,18 @@ class PokedexGo::CLI
                 puts "#{user_input} is an invalid selection"
             end
         end
+    end
+
+    def self.view_pokemon_pve_movesets(pokemon)
+
+        puts " ___________________________________________________________________"
+        puts "|\\__________________________PVE_MOVESETS__________________________/|"
+        puts "|                                                                   |"
+        pokemon.pve_movesets.each do |moveset|
+            puts "Quick: #{moveset[:quick]} Charge: #{moveset[:charge]}"
+            puts "Atk Grade: #{moveset[:atk_grade]} Def Grade: #{moveset[:def_grade]}"
+            puts "-----------------------------------------------------------------"
+        end
+        puts "|____________________________________________________________________|"
     end
 end
