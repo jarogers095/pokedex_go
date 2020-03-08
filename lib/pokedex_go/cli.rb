@@ -9,7 +9,10 @@ class PokedexGo::CLI
         cyan: "\u001b[36m",
         white: "\u001b[37m",
         reset: "\u001b[0m",
-
+        line_start: "\u001b[1000D",
+        line_up: "\u001b[1A",
+        line_clear: "\u001b[2K",
+        window_size: "\e[8;25;80t"
     }
 
     def self.call()
@@ -19,6 +22,7 @@ class PokedexGo::CLI
 
     def self.welcome()
         #creation of Pokemon index
+        print FX[:window_size]
         PokedexGo::Scraper.create_pokemon_from_index()
         main_menu()
     end
@@ -57,7 +61,20 @@ class PokedexGo::CLI
                 list_pokemon_of_type()
                 break
             when 3
-                search_by_name()
+                print FX[:line_up]
+                print "Enter pokemon name: "
+                user_input = gets.chomp
+                pokemon_of_name = PokedexGo::Pokemon.all.select do |pokemon|
+                    pokemon.name.downcase == user_input.downcase
+                end
+                if pokemon_of_name.size > 1
+                    select_from_pokemon(pokemon_of_name)
+                elsif pokemon_of_name.size == 1
+                    view_pokemon_profile(pokemon_of_name[0])
+                else
+                    print FX[:line_up]
+                    print "Name not found! Reselect 1, 2, 3 or 4:"
+                end
                 break
             when 4
                 break
@@ -139,7 +156,7 @@ class PokedexGo::CLI
         present_pokemon_list(pokemon_of_type)
     end
 
-    def self.search_by_name()
+    def self.search_by_name(input)
 
     end
 
@@ -193,7 +210,42 @@ class PokedexGo::CLI
 
         window_tail_double()
 
-        window_navigation_quad("1: PVE Movesets", "2: PVP Movesets", "3: Back to list", "4: Main Menu")
+        window_navigation_quad("1: PVE Movesets", "2: PVP Movesets", "3: Search by name", "4: Main Menu")
+        
+        user_input = 0
+
+        while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
+            print "Enter an option: "
+            user_input = gets.chomp.to_i
+            case user_input
+            when 1
+                view_pokemon_pve_movesets(pokemon)
+                break
+            when 2
+                view_pokemon_pvp_movesets(pokemon)
+                break
+            when 3
+                print FX[:line_up]
+                print "Enter pokemon name: "
+                user_input = gets.chomp
+                pokemon_of_name = PokedexGo::Pokemon.all.select do |pokemon|
+                    pokemon.name.downcase == user_input.downcase
+                end
+                if pokemon_of_name.size > 1
+                    select_from_pokemon(pokemon_of_name)
+                elsif pokemon_of_name.size == 1
+                    view_pokemon_profile(pokemon_of_name[0])
+                else
+                    print FX[:line_up]
+                    print "Name not found! Reselect 1, 2, 3 or 4:"
+                end
+                break
+            when 4
+                break
+            else
+                puts "#{user_input} is an invalid selection"
+            end
+        end
 
     end
 
@@ -260,30 +312,6 @@ class PokedexGo::CLI
         puts "╰──────────────────────────────────┴──────────────────────────────────╯"
     end
 
-    def self.capture_input(method_1, method_2, method_3, method_4)
-        user_input = 0
-
-        while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
-            print "Enter an option: "
-            user_input = gets.chomp.to_i
-            case user_input
-            when 1
-                method_1.call()
-                break
-            when 2
-                method_2.call()
-                break
-            when 3
-                method_3.call()
-                break
-            when 4
-                method_4.call()
-            else
-                puts "#{user_input} is an invalid selection"
-            end
-        end
-    end
-
     def self.view_pokemon_pve_movesets(pokemon)
 
         puts " _____________________________________________________________________"
@@ -342,8 +370,5 @@ class PokedexGo::CLI
         aligned_string = string
         (gap - string.length).times {aligned_string << filler_character}
         return aligned_string
-    end
-
-    def self.align_right()
     end
 end

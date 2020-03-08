@@ -12,6 +12,8 @@ class PokedexGo::Adv_CLI
         cyan: "\u001b[36m",
         white: "\u001b[37m",
         reset: "\u001b[0m",
+        line_start: "\u001b[1000D",
+        line_clear: "\u001b[2K"
     }
 
     def self.readkey()
