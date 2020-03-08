@@ -51,9 +51,10 @@ class PokedexGo::CLI
         window_navigation_quad("1: List all Pokemon", "2: Search by Pokemon type", "3: Search by Name", "4: Exit")
 
         user_input = 0
-
+        prompt = "Enter an option: "
         while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
-            print "Enter an option: "
+            print FX[:line_clear]
+            print prompt
             user_input = gets.chomp.to_i
             case user_input
             when 1
@@ -64,6 +65,7 @@ class PokedexGo::CLI
                 break
             when 3
                 print FX[:line_up]
+                print FX[:line_clear]
                 print "Enter pokemon name: "
                 user_input = gets.chomp
                 pokemon_of_name = PokedexGo::Pokemon.all.select do |pokemon|
@@ -75,13 +77,14 @@ class PokedexGo::CLI
                     view_pokemon_profile(pokemon_of_name[0])
                 else
                     print FX[:line_up]
-                    print "Name not found! Reselect 1, 2, 3 or 4:"
+                    prompt = "Name not found! Reselect 1, 2, 3 or 4: "
                 end
-                break
             when 4
                 quit()
                 break
             else
+                print FX[:line_up]
+                print FX[:line_clear]
                 puts "#{user_input} is an invalid selection"
             end
         end
@@ -107,9 +110,9 @@ class PokedexGo::CLI
             window_navigation_quad("1: Next page", "2: Previous page", "3: Enter name", "4: Main menu")
             
             user_input = 0
-
+            prompt = "Enter an option: "
             while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
-                print "Enter an option: "
+                print prompt
                 user_input = gets.chomp.to_i
                 case user_input
                 when 1
@@ -135,12 +138,14 @@ class PokedexGo::CLI
                         view_pokemon_profile(pokemon_of_name[0])
                     else
                         print FX[:line_up]
-                        print "Name not found! Reselect 1, 2, 3 or 4:"
+                        prompt = "Name not found! Reselect 1, 2, 3 or 4: "
                     end
                     break
                 when 4
                     main_menu()
                 else
+                    print FX[:line_up]
+                    print FX[:line_clear]
                     puts "#{user_input} is an invalid selection"
                 end
             end
@@ -267,9 +272,9 @@ class PokedexGo::CLI
         window_navigation_quad("1: PVE Movesets", "2: PVP Movesets", "3: Search by name", "4: Main Menu")
         
         user_input = 0
-
+        prompt = "Enter an option: "
         while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
-            print "Enter an option: "
+            print prompt
             user_input = gets.chomp.to_i
             case user_input
             when 1
@@ -291,7 +296,7 @@ class PokedexGo::CLI
                     view_pokemon_profile(pokemon_of_name[0])
                 else
                     print FX[:line_up]
-                    print "Name not found! Reselect 1, 2, 3 or 4:"
+                    prompt =  "Name not found! Reselect 1, 2, 3 or 4:"
                 end
                 break
             when 4
