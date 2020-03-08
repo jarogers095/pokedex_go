@@ -14,8 +14,7 @@ class PokedexGo::CLI
 
     def self.call()
         #entrypoint
-        #welcome()
-        PokedexGo::Adv_CLI.call()
+        welcome()
     end
 
     def self.welcome()
@@ -110,20 +109,10 @@ class PokedexGo::CLI
         #view full profile of individual pokemon
         PokedexGo::Scraper.add_profile_stats(pokemon)
 
-        puts "╔═════════════════════════════════════════════════════════════════════╗"
-        print "║"
-        print center_string(pokemon.name.upcase, 69, " ")
-        puts "║"
-        puts "╚═════════════════════════════════════════════════════════════════════╝"
+        #Name Banner
 
-
-        puts "╭──────────────────────────────────┬──────────────────────────────────╮"
-        print "│"
-        print center_string("Stats", 34, " ")
-        print "│"
-        print center_string("LEAGUE RANKS", 34, " ")
-        puts "│"
-        puts "├──────────────────────────────────┼──────────────────────────────────┤"
+        #Double Title: Stats, League Ranks
+        
 
 
         print "│"
@@ -146,13 +135,7 @@ class PokedexGo::CLI
         puts "│"
         puts "╰──────────────────────────────────┴──────────────────────────────────╯"
 
-        puts "╭──────────────────────────────────┬──────────────────────────────────╮"
-        print "│"
-        print center_string("VULNERABLE", 34, " ")
-        print "│"
-        print center_string("RESISTANT", 34, " ")
-        puts "│"
-        puts "├──────────────────────────────────┼──────────────────────────────────┤"
+        #Double Title: Vulnerable, Resistant
         
 
 
@@ -171,12 +154,54 @@ class PokedexGo::CLI
             end
         end
         puts "╰──────────────────────────────────┴──────────────────────────────────╯"
-        puts "╭──────────────────────────────────┬──────────────────────────────────╮"
-        puts "│                                  │                                  │"
-        puts "├──────────────────────────────────┼──────────────────────────────────┤"
-        puts "│                                  │                                  │"
-        puts "╰──────────────────────────────────┴──────────────────────────────────╯"
 
+
+        
+
+        
+    end
+
+
+
+    def self.pokemon_name_banner(pokemon)
+        puts "╔═════════════════════════════════════════════════════════════════════╗"
+        print "║"
+        print center_string(pokemon.name.upcase, 69, " ")
+        puts "║"
+        puts "╚═════════════════════════════════════════════════════════════════════╝"
+    end
+
+    def self.title_bar_single(title)
+
+    end
+
+    def self.title_bar_double(title_1, title_2)
+        puts "╭──────────────────────────────────┬──────────────────────────────────╮"
+        print "│"
+        print center_string(title_1, 34, " ")
+        print "│"
+        print center_string(title_2, 34, " ")
+        puts "│"
+        puts "├──────────────────────────────────┼──────────────────────────────────┤"
+    end
+
+    def self.navigation_menu(option_1, option_2, option_3, option_4)
+        puts "╭──────────────────────────────────┬──────────────────────────────────╮"
+        print "│"
+        print center_string(option_1, 34, " ")
+        print "│"
+        print center_string(option_2, 34, " ")
+        puts "│"
+        puts "├──────────────────────────────────┼──────────────────────────────────┤"
+        print "│"
+        print center_string(option_3, 34, " ")
+        print "│"
+        print center_string(option_4, 34, " ")
+        puts "│"
+        puts "╰──────────────────────────────────┴──────────────────────────────────╯"
+    end
+
+    def self.capture_input(method_1, method_2, method_3, method_4)
         user_input = 0
 
         while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
@@ -184,16 +209,16 @@ class PokedexGo::CLI
             user_input = gets.chomp.to_i
             case user_input
             when 1
-                view_pokemon_pve_movesets(pokemon)
+                method_1.call(pokemon)
                 break
             when 2
-                view_pokemon_pvp_movesets(pokemon)
+                method_2.call(pokemon)
                 break
             when 3
-                search_by_name_or_number()
+                method_3.call()
                 break
             when 4
-                main_menu()
+                method_4.call()
             else
                 puts "#{user_input} is an invalid selection"
             end

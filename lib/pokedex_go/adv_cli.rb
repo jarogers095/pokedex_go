@@ -91,6 +91,10 @@ class PokedexGo::Adv_CLI
         print FX[:reset]
     end
 
+    def self.move_cursor(row, colum)
+        print "\u001b[#{row};#{column}H"
+    end
+
     def self.capture_input(selection)
         case readkey.inspect
         when "\"\\e[C\""
