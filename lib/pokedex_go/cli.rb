@@ -34,39 +34,90 @@ class PokedexGo::CLI
 
         window_navigation_quad("1: List all Pokemon", "2: List by Pokemon type", "3: Search by Name or Number", "4: Exit")
 
-        capture_input(
-            method(:list_all_pokemon), 
-            method(:list_pokemon_of_type), 
-            method(:search_by_name_or_number), 
-            method(:exit)
-        )
+        while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
+            print "Enter an option: "
+            user_input = gets.chomp.to_i
+            case user_input
+            when 1
+                present_pokemon_list(PokedexGo::Pokemon.all())
+                break
+            when 2
+                list_pokemon_of_type()
+                break
+            when 3
+                break
+            when 4
+                main_menu()
+            else
+                puts "#{user_input} is an invalid selection"
+            end
+        end
     end
 
     def self.list_all_pokemon()
-        #presents entire list of pokemon, broken up into segments
-        PokedexGo::Pokemon.all.each do |pokemon|
-            puts "#{pokemon.number}: #{pokemon.name}"
-        end
+        present_pokemon_list(PokedexGo::Pokemon.all())
+        
         print "Select a Pokemon: "
         user_input = gets.chomp.to_i
         view_pokemon_profile(PokedexGo::Pokemon.all.detect{|mon| mon.number == user_input})
     end
 
+    def self.present_pokemon_list(list)
+        offset = 0
+
+        loop do
+            system("clear")
+            puts "╭─────────────────────────────────────────────────────────────────────╮"
+            (15).times do |n|
+                i = offset + n
+                print "│"
+                if i < list.size
+                    print align_left(" #{list[i].number}: #{list[i].name} (#{list[i].type})", 69, " ")
+                else
+                    69.times {print " "}
+                end
+                puts "│"
+            end
+            puts "╰─────────────────────────────────────────────────────────────────────╯"
+            window_navigation_quad("1: Next page", "2: Enter name", "3: Enter number", "4: Main menu")
+            user_input = 0
+
+            while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
+                print "Enter an option: "
+                user_input = gets.chomp.to_i
+                case user_input
+                when 1
+                    if offset < (list.size - 15)
+                        offset += 15
+                    end
+                    break
+                when 2
+                    break
+                when 3
+                    break
+                when 4
+                    main_menu()
+                else
+                    puts "#{user_input} is an invalid selection"
+                end
+            end
+        end
+    end
+
     def self.list_pokemon_of_type()
         #lists all pokemon of given type
+        system("clear")
         window_title_single("Pokemon Types")
-        puts "|                                                                   |"
-        puts "| #{FX[:green]}Bug        #{FX[:magenta]}Dark       #{FX[:white]}Dragon     #{FX[:yellow]}Electric     #{FX[:cyan]}Fairy      #{FX[:red]}Fighting#{FX[:reset]} |"
-        puts "| #{FX[:red]}Fire       #{FX[:white]}Flying     #{FX[:magenta]}Ghost      #{FX[:green]}Grass        #{FX[:black]}Ground     #{FX[:cyan]}Ice#{FX[:reset]}      |"
-        puts "| #{FX[:white]}Normal     #{FX[:magenta]}Poison     #{FX[:red]}Psychic    #{FX[:black]}Rock         #{FX[:white]}Steel      #{FX[:blue]}Water#{FX[:reset]}    |"
+        puts "│ #{FX[:green]}Bug        #{FX[:magenta]}Dark       #{FX[:white]}Dragon       #{FX[:yellow]}Electric     #{FX[:cyan]}Fairy      #{FX[:red]}Fighting#{FX[:reset]} │"
+        puts "│ #{FX[:red]}Fire       #{FX[:white]}Flying     #{FX[:magenta]}Ghost        #{FX[:green]}Grass        #{FX[:black]}Ground     #{FX[:cyan]}Ice#{FX[:reset]}      │"
+        puts "│ #{FX[:white]}Normal     #{FX[:magenta]}Poison     #{FX[:red]}Psychic      #{FX[:black]}Rock         #{FX[:white]}Steel      #{FX[:blue]}Water#{FX[:reset]}    │"
         window_tail_single()
-        puts ""
 
-        single_navigation_menu("Enter a Pokemon type")
+        window_navigation_single("Enter a Pokemon type")
 
         user_input = "none"
         while !PokedexGo::Pokemon.types.include?(user_input)
-            user_input = gets.chomp
+            user_input = gets.chomp.downcase
             if !PokedexGo::Pokemon.types.include?(user_input)
                 puts "#{user_input} is an invalid selection"
             end
@@ -76,14 +127,7 @@ class PokedexGo::CLI
             pokemon.type.include?(user_input)
         end
 
-        pokemon_of_type.each do |mon|
-            puts "#{mon.number}: #{mon.name} (#{mon.type})"
-        end
-        
-        single_navigation_menu("Enter a Pokemon's NUMBER to see their profile")
-
-        user_input = gets.chomp.to_i
-        view_pokemon_profile(PokedexGo::Pokemon.all.detect{|mon| mon.number == user_input})
+        present_pokemon_list(pokemon_of_type)
     end
 
     def self.search_by_name_or_number()
@@ -141,7 +185,7 @@ class PokedexGo::CLI
         window_tail_double()
 
         window_navigation_quad("1: PVE Movesets", "2: PVP Movesets", "3: Back to list", "4: Main Menu")
-        
+
     end
 
     def self.exit(pokemon)
@@ -189,7 +233,6 @@ class PokedexGo::CLI
         print center_string(prompt, 69, " ")
         puts "│"
         puts "╰─────────────────────────────────────────────────────────────────────╯"
-        puts ""
     end
 
     def self.window_navigation_quad(option_1, option_2, option_3, option_4)
@@ -206,7 +249,6 @@ class PokedexGo::CLI
         print center_string(option_4, 34, " ")
         puts "│"
         puts "╰──────────────────────────────────┴──────────────────────────────────╯"
-        puts ""
     end
 
     def self.capture_input(method_1, method_2, method_3, method_4)
