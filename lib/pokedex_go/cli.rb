@@ -19,25 +19,26 @@ class PokedexGo::CLI
 
     def self.welcome()
         #initial welcome message and creation of Pokemon index
-        puts "Welcome to Pokedex Go: The World's Best Text-Based Pokemon Go Search Tool!"
+        puts ": "
         PokedexGo::Scraper.create_pokemon_from_index()
         main_menu()
     end
 
     def self.main_menu()
         #Root of menu system
-        window_title_single("Main Menu")
-
-        puts "|             1: List all available Pokemon                         |"
-        puts "|             2: Search by Pokemon type                             |"
-        puts "|             3: Search by Pokemon name or number                   |"
+        system("clear")
+        window_title_single("Pokedex Go")
+        puts "│                  Welcome to Pokedex Go                              │"
+        puts "│    The World's Best Text-Based Pokemon Go Search Tool!              │"
         window_tail_single()
 
+        window_navigation_quad("1: List all Pokemon", "2: List by Pokemon type", "3: Search by Name or Number", "4: Exit")
+
         capture_input(
-            method(list_all_pokemon()), 
-            method(list_pokemon_of_type()), 
-            method(search_by_name_or_number()), 
-            method(exit())
+            method(:list_all_pokemon), 
+            method(:list_pokemon_of_type), 
+            method(:search_by_name_or_number), 
+            method(:exit)
         )
     end
 
@@ -93,6 +94,7 @@ class PokedexGo::CLI
         #view full profile of individual pokemon
         PokedexGo::Scraper.add_profile_stats(pokemon)
 
+        system("clear")
         window_banner(pokemon.name)
 
         window_title_double("Stats", "League Ranks")
@@ -137,17 +139,20 @@ class PokedexGo::CLI
         end
 
         window_tail_double()
+
+        window_navigation_quad("1: PVE Movesets", "2: PVP Movesets", "3: Back to list", "4: Main Menu")
+        
     end
 
     def self.exit(pokemon)
         system("clear")
         window_banner("Goodbye!")
     end
-    
-    def self.window_banner(pokemon)
+
+    def self.window_banner(name)
         puts "╔═════════════════════════════════════════════════════════════════════╗"
         print "║"
-        print center_string(pokemon.name.upcase, 69, " ")
+        print center_string(name.upcase, 69, " ")
         puts "║"
         puts "╚═════════════════════════════════════════════════════════════════════╝"
     end
@@ -172,12 +177,10 @@ class PokedexGo::CLI
 
     def self.window_tail_single()
         puts "╰─────────────────────────────────────────────────────────────────────╯"
-        puts ""
     end
 
     def self.window_tail_double()
         puts "╰──────────────────────────────────┴──────────────────────────────────╯"
-        puts ""
     end
 
     def self.window_navigation_single(prompt)
@@ -214,16 +217,16 @@ class PokedexGo::CLI
             user_input = gets.chomp.to_i
             case user_input
             when 1
-                method_1.call(pokemon)
+                method_1.call()
                 break
             when 2
-                method_2.call(pokemon)
+                method_2.call()
                 break
             when 3
-                method_3.call(pokemon)
+                method_3.call()
                 break
             when 4
-                method_4.call(pokemon)
+                method_4.call()
             else
                 puts "#{user_input} is an invalid selection"
             end
@@ -291,6 +294,5 @@ class PokedexGo::CLI
     end
 
     def self.align_right()
-
     end
 end
