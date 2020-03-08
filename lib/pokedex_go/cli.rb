@@ -9,6 +9,7 @@ class PokedexGo::CLI
         cyan: "\u001b[36m",
         white: "\u001b[37m",
         reset: "\u001b[0m",
+        bold: "\u001b[1m",
         line_start: "\u001b[1000D",
         line_up: "\u001b[1A",
         line_clear: "\u001b[2K",
@@ -188,6 +189,12 @@ class PokedexGo::CLI
         print align_left(" Master League:  #{pokemon.ratings[:master_league]}", 34, " ")
         puts "│"
 
+        print "│"
+        print align_left(" Stamina:  #{pokemon.stamina}", 34, " ")
+        print "│"
+        print align_left(" ", 34, " ")
+        puts "│"
+
         window_tail_double()
 
 
@@ -241,6 +248,7 @@ class PokedexGo::CLI
                 end
                 break
             when 4
+                main_menu()
                 break
             else
                 puts "#{user_input} is an invalid selection"
@@ -265,7 +273,9 @@ class PokedexGo::CLI
     def self.window_title_single(title)
         puts "╭─────────────────────────────────────────────────────────────────────╮"
         print "│"
+        print FX[:bold]
         print center_string(title, 69, " ")
+        print FX[:reset]
         puts "│"
         puts "├─────────────────────────────────────────────────────────────────────┤"
     end
@@ -314,47 +324,49 @@ class PokedexGo::CLI
 
     def self.view_pokemon_pve_movesets(pokemon)
 
-        puts " _____________________________________________________________________"
-        print "|"
-        print center_string("PVE_MOVESETS", 69, "_")
-        puts "|"
-        puts "|                                                                     |"
-        puts "|________Quick___________________Charge___________Atk_Grade_Def_Grade_|"
-        pokemon.pve_movesets.each do |moveset|
-            print "|"
+        system("clear")
+        window_title_single("PVE Movesets")
+        puts "│        Quick                    Charge          Atk Grade Def Grade │"
+        puts "├──────────────────────┬────────────────────────┬──────────┬──────────┤"
+        pokemon.pve_movesets.each_with_index do |moveset, index|
+            print "│"
             print center_string(moveset[:quick], 22, " ")
-            print "|"
+            print "│"
             print center_string(moveset[:charge], 24, " ")
-            print "|"
+            print "│"
             print center_string(moveset[:atk_grade], 10, " ")
-            print "|"
+            print "│"
             print center_string(moveset[:def_grade], 10, " ")   
-            puts "|"
-            puts "|----------------------|------------------------|----------|----------|"
+            puts "│"
+            if((index + 1) < pokemon.pve_movesets.size)
+                puts "├──────────────────────┼────────────────────────┼──────────┼──────────┤"
+            else
+                puts "╰──────────────────────┴────────────────────────┴──────────┴──────────╯"
+            end
         end
-        puts     "|______________________|________________________|__________|__________|"
     end
 
     def self.view_pokemon_pvp_movesets(pokemon)
-        puts " _____________________________________________________________________"
-        print "|"
-        print center_string("PVP_MOVESETS", 69, "_")
-        puts "|"
-        puts "|                                                                     |"
-        puts "|________Quick______________Charge 1______________Charge 2______Grade_|"
-        pokemon.pvp_movesets.each do |moveset|
-            print "|"
+        system("clear")
+        window_title_single("PVP Movesets")
+        puts "│        Quick              Charge 1          Charge 2       Grade │"
+        puts "├────────────────────┬────────────────────┬────────────────────┬──────┤"
+        pokemon.pvp_movesets.each_with_index do |moveset, index|
+            print "│"
             print center_string(moveset[:quick], 20, " ")
-            print "|"
+            print "│"
             print center_string(moveset[:charge_1], 20, " ")
-            print "|"
+            print "│"
             print center_string(moveset[:charge_2], 20, " ")
-            print "|"
+            print "│"
             print center_string(moveset[:grade], 6, " ")   
-            puts "|"
-            puts "|--------------------|--------------------|--------------------|------|"
+            puts "│"
+            if((index + 1) < pokemon.pvp_movesets.size)
+                puts "├────────────────────┼────────────────────┼────────────────────┼──────┤"
+            else
+                puts "╰────────────────────┴────────────────────┴────────────────────┴──────╯"
+            end
         end
-        puts "|____________________|____________________|____________________|______|"
     end
 
     def self.center_string(string, gap, filler_character)

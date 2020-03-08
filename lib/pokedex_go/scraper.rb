@@ -47,7 +47,8 @@ class PokedexGo::Scraper
             master_league: "0 / 0"
         }
 
-        pve_movesets_html = profile_page.css(".pve-section .views-element-container .view .view-content .views-table tbody tr")
+        #pve_movesets_html = profile_page.css(".pve-section .views-element-container .view .view-content .views-table tbody tr")
+        pve_movesets_html = profile_page.xpath("/html/body/div[2]/div[6]/main/section/div[1]/div[2]/div[2]/article/div[15]/div[1]/div/div/table/tbody/tr")
         pve_movesets_html.each do |moveset|
             moveset_hash = {
                 quick: moveset.css(".views-field-views-conditional-field div a div span").text,
@@ -58,7 +59,8 @@ class PokedexGo::Scraper
             pve_movesets_parsed << moveset_hash
         end
 
-        pvp_movesets_html = profile_page.css(".pvp-section .views-element-container .view .view-content .views-table tbody tr")
+        #pvp_movesets_html = profile_page.css(".pvp-section .views-element-container .view .view-content .views-table tbody tr")
+        pvp_movesets_html = profile_page.xpath("/html/body/div[2]/div[6]/main/section/div[1]/div[2]/div[2]/article/div[17]/div[1]/div/div/table/tbody/tr")
         pvp_movesets_html.each do |moveset|
             moveset_hash = {
                 quick: moveset.css(".views-field-views-conditional-field div a div span").text,
