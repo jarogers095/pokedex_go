@@ -26,34 +26,19 @@ class PokedexGo::CLI
 
     def self.main_menu()
         #Root of menu system
-        puts " ___________________________________________________________________"
-        puts "|\\__________________________MAIN_MENU______________________________/|"
-        puts "|                                                                   |"
+        window_title_single("Main Menu")
+
         puts "|             1: List all available Pokemon                         |"
         puts "|             2: Search by Pokemon type                             |"
         puts "|             3: Search by Pokemon name or number                   |"
-        puts "|___________________________________________________________________|"
-        puts ""
+        window_tail_single()
 
-        user_input = 0
-
-        while user_input != 1 && user_input != 2 && user_input != 3
-            print "Enter an option: "
-            user_input = gets.chomp.to_i
-            case user_input
-            when 1
-                list_all_pokemon()
-                break
-            when 2
-                list_pokemon_of_type()
-                break
-            when 3
-                search_by_name_or_number()
-                break
-            else
-                puts "#{user_input} is an invalid selection"
-            end
-        end
+        capture_input(
+            method(list_all_pokemon()), 
+            method(list_pokemon_of_type()), 
+            method(search_by_name_or_number()), 
+            method(exit())
+        )
     end
 
     def self.list_all_pokemon()
@@ -68,25 +53,23 @@ class PokedexGo::CLI
 
     def self.list_pokemon_of_type()
         #lists all pokemon of given type
-        puts " ___________________________________________________________________"
-        puts "|\\__________________________TYPE_MENU______________________________/|"
+        window_title_single("Pokemon Types")
         puts "|                                                                   |"
         puts "| #{FX[:green]}Bug        #{FX[:magenta]}Dark       #{FX[:white]}Dragon     #{FX[:yellow]}Electric     #{FX[:cyan]}Fairy      #{FX[:red]}Fighting#{FX[:reset]} |"
         puts "| #{FX[:red]}Fire       #{FX[:white]}Flying     #{FX[:magenta]}Ghost      #{FX[:green]}Grass        #{FX[:black]}Ground     #{FX[:cyan]}Ice#{FX[:reset]}      |"
         puts "| #{FX[:white]}Normal     #{FX[:magenta]}Poison     #{FX[:red]}Psychic    #{FX[:black]}Rock         #{FX[:white]}Steel      #{FX[:blue]}Water#{FX[:reset]}    |"
-        puts "|___________________________________________________________________|"
+        window_tail_single()
         puts ""
+
+        single_navigation_menu("Enter a Pokemon type")
 
         user_input = "none"
         while !PokedexGo::Pokemon.types.include?(user_input)
-            print "Enter a type: "
             user_input = gets.chomp
             if !PokedexGo::Pokemon.types.include?(user_input)
                 puts "#{user_input} is an invalid selection"
             end
         end
-
-
 
         pokemon_of_type = PokedexGo::Pokemon.all.select do |pokemon|
             pokemon.type.include?(user_input)
@@ -96,7 +79,8 @@ class PokedexGo::CLI
             puts "#{mon.number}: #{mon.name} (#{mon.type})"
         end
         
-        print "Enter a Pokemon's NUMBER to see their profile: "
+        single_navigation_menu("Enter a Pokemon's NUMBER to see their profile")
+
         user_input = gets.chomp.to_i
         view_pokemon_profile(PokedexGo::Pokemon.all.detect{|mon| mon.number == user_input})
     end
@@ -109,12 +93,10 @@ class PokedexGo::CLI
         #view full profile of individual pokemon
         PokedexGo::Scraper.add_profile_stats(pokemon)
 
-        #Name Banner
+        window_banner(pokemon.name)
 
-        #Double Title: Stats, League Ranks
+        window_title_double("Stats", "League Ranks")
         
-
-
         print "│"
         print align_left(" Number:   #{pokemon.number}", 34, " ")
         print "│"
@@ -133,12 +115,12 @@ class PokedexGo::CLI
         print "│"
         print align_left(" Master League:  #{pokemon.ratings[:master_league]}", 34, " ")
         puts "│"
-        puts "╰──────────────────────────────────┴──────────────────────────────────╯"
 
-        #Double Title: Vulnerable, Resistant
+        window_tail_double()
+
+
+        window_title_double("Vulnerable", "Resistant")
         
-
-
         pokemon.weaknesses.each_with_index do |weakness, index|
             print "│"
             print align_left(" #{weakness[:type]}:", 10, " ")
@@ -153,17 +135,16 @@ class PokedexGo::CLI
                 puts "                                  │"
             end
         end
-        puts "╰──────────────────────────────────┴──────────────────────────────────╯"
 
-
-        
-
-        
+        window_tail_double()
     end
 
-
-
-    def self.pokemon_name_banner(pokemon)
+    def self.exit(pokemon)
+        system("clear")
+        window_banner("Goodbye!")
+    end
+    
+    def self.window_banner(pokemon)
         puts "╔═════════════════════════════════════════════════════════════════════╗"
         print "║"
         print center_string(pokemon.name.upcase, 69, " ")
@@ -171,11 +152,15 @@ class PokedexGo::CLI
         puts "╚═════════════════════════════════════════════════════════════════════╝"
     end
 
-    def self.title_bar_single(title)
-
+    def self.window_title_single(title)
+        puts "╭─────────────────────────────────────────────────────────────────────╮"
+        print "│"
+        print center_string(title, 69, " ")
+        puts "│"
+        puts "├─────────────────────────────────────────────────────────────────────┤"
     end
 
-    def self.title_bar_double(title_1, title_2)
+    def self.window_title_double(title_1, title_2)
         puts "╭──────────────────────────────────┬──────────────────────────────────╮"
         print "│"
         print center_string(title_1, 34, " ")
@@ -185,7 +170,26 @@ class PokedexGo::CLI
         puts "├──────────────────────────────────┼──────────────────────────────────┤"
     end
 
-    def self.navigation_menu(option_1, option_2, option_3, option_4)
+    def self.window_tail_single()
+        puts "╰─────────────────────────────────────────────────────────────────────╯"
+        puts ""
+    end
+
+    def self.window_tail_double()
+        puts "╰──────────────────────────────────┴──────────────────────────────────╯"
+        puts ""
+    end
+
+    def self.window_navigation_single(prompt)
+        puts "╭─────────────────────────────────────────────────────────────────────╮"
+        print "│"
+        print center_string(prompt, 69, " ")
+        puts "│"
+        puts "╰─────────────────────────────────────────────────────────────────────╯"
+        puts ""
+    end
+
+    def self.window_navigation_quad(option_1, option_2, option_3, option_4)
         puts "╭──────────────────────────────────┬──────────────────────────────────╮"
         print "│"
         print center_string(option_1, 34, " ")
@@ -199,6 +203,7 @@ class PokedexGo::CLI
         print center_string(option_4, 34, " ")
         puts "│"
         puts "╰──────────────────────────────────┴──────────────────────────────────╯"
+        puts ""
     end
 
     def self.capture_input(method_1, method_2, method_3, method_4)
@@ -215,10 +220,10 @@ class PokedexGo::CLI
                 method_2.call(pokemon)
                 break
             when 3
-                method_3.call()
+                method_3.call(pokemon)
                 break
             when 4
-                method_4.call()
+                method_4.call(pokemon)
             else
                 puts "#{user_input} is an invalid selection"
             end
