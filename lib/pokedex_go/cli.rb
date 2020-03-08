@@ -13,7 +13,8 @@ class PokedexGo::CLI
         line_start: "\u001b[1000D",
         line_up: "\u001b[1A",
         line_clear: "\u001b[2K",
-        window_size: "\e[8;25;80t"
+        window_size: "\e[8;25;80t",
+        reverse: "\u001b[7m"
     }
 
     def self.call()
@@ -66,7 +67,7 @@ class PokedexGo::CLI
                 print "Enter pokemon name: "
                 user_input = gets.chomp
                 pokemon_of_name = PokedexGo::Pokemon.all.select do |pokemon|
-                    pokemon.name.downcase == user_input.downcase
+                    pokemon.name.downcase.include?(user_input.downcase)
                 end
                 if pokemon_of_name.size > 1
                     select_from_pokemon(pokemon_of_name)
@@ -78,6 +79,7 @@ class PokedexGo::CLI
                 end
                 break
             when 4
+                quit()
                 break
             else
                 puts "#{user_input} is an invalid selection"
@@ -95,14 +97,15 @@ class PokedexGo::CLI
                 i = offset + n
                 print "│"
                 if i < list.size
-                    print align_left(" #{list[i].number}: #{list[i].name} (#{list[i].type})", 69, " ")
+                    print align_left(" #{list[i].number}: #{list[i].name} [#{list[i].type}]", 69, " ")
                 else
                     69.times {print " "}
                 end
                 puts "│"
             end
             puts "╰─────────────────────────────────────────────────────────────────────╯"
-            window_navigation_quad("1: Next page", "2: Enter name", "3: Enter number", "4: Main menu")
+            window_navigation_quad("1: Next page", "2: Previous page", "3: Enter name", "4: Main menu")
+            
             user_input = 0
 
             while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
@@ -115,8 +118,25 @@ class PokedexGo::CLI
                     end
                     break
                 when 2
+                    if offset > 0
+                        offset -= 15
+                    end
                     break
                 when 3
+                    print FX[:line_up]
+                    print "Enter pokemon name: "
+                    user_input = gets.chomp
+                    pokemon_of_name = PokedexGo::Pokemon.all.select do |pokemon|
+                        pokemon.name.downcase.include?(user_input.downcase)
+                    end
+                    if pokemon_of_name.size > 1
+                        select_from_pokemon(pokemon_of_name)
+                    elsif pokemon_of_name.size == 1
+                        view_pokemon_profile(pokemon_of_name[0])
+                    else
+                        print FX[:line_up]
+                        print "Name not found! Reselect 1, 2, 3 or 4:"
+                    end
                     break
                 when 4
                     main_menu()
@@ -131,18 +151,19 @@ class PokedexGo::CLI
         #lists all pokemon of given type
         system("clear")
         window_title_single("Pokemon Types")
-        puts "|"
+        puts "│                                                                     │"
         puts "│ #{FX[:green]}Bug        #{FX[:magenta]}Dark       #{FX[:white]}Dragon       #{FX[:yellow]}Electric     #{FX[:cyan]}Fairy      #{FX[:red]}Fighting#{FX[:reset]} │"
-        puts "|"
+        puts "│                                                                     │"
         puts "│ #{FX[:red]}Fire       #{FX[:white]}Flying     #{FX[:magenta]}Ghost        #{FX[:green]}Grass        #{FX[:black]}Ground     #{FX[:cyan]}Ice#{FX[:reset]}      │"
-        puts "|"
+        puts "│                                                                     │"
         puts "│ #{FX[:white]}Normal     #{FX[:magenta]}Poison     #{FX[:red]}Psychic      #{FX[:black]}Rock         #{FX[:white]}Steel      #{FX[:blue]}Water#{FX[:reset]}    │"
-        puts "|"
+        puts "│                                                                     │"
         window_tail_single()
 
         window_navigation_single("Enter a Pokemon type")
 
         user_input = "none"
+        print "Type: "
         while !PokedexGo::Pokemon.types.include?(user_input)
             user_input = gets.chomp.downcase
             if !PokedexGo::Pokemon.types.include?(user_input)
@@ -158,7 +179,33 @@ class PokedexGo::CLI
     end
 
     def self.search_by_name(input)
+    end
 
+    def self.select_from_pokemon(list)
+        system("clear")
+        offset = 0
+        puts "╭─────────────────────────────────────────────────────────────────────╮"
+        (15).times do |n|
+            i = offset + n
+            print "│"
+            if i < list.size
+                print align_left(" #{i}: #{list[i].name} [#{list[i].type}]", 69, " ")
+            else
+                69.times {print " "}
+            end
+            puts "│"
+        end
+        puts "╰─────────────────────────────────────────────────────────────────────╯"
+        window_navigation_single("Multiple Pokemon found. Select a number from the list.")
+        
+
+        user_input = 0
+
+        while user_input < 1 || user_input > list.size
+            print "Number: "
+            user_input = gets.chomp.to_i
+            view_pokemon_profile(list[user_input - 1])
+        end
     end
 
     def self.view_pokemon_profile(pokemon)
@@ -236,7 +283,7 @@ class PokedexGo::CLI
                 print "Enter pokemon name: "
                 user_input = gets.chomp
                 pokemon_of_name = PokedexGo::Pokemon.all.select do |pokemon|
-                    pokemon.name.downcase == user_input.downcase
+                    pokemon.name.downcase.include?(user_input.downcase)
                 end
                 if pokemon_of_name.size > 1
                     select_from_pokemon(pokemon_of_name)
@@ -257,9 +304,10 @@ class PokedexGo::CLI
 
     end
 
-    def self.exit(pokemon)
+    def self.quit()
         system("clear")
         window_banner("Goodbye!")
+        exit(true)
     end
 
     def self.window_banner(name)
@@ -344,12 +392,24 @@ class PokedexGo::CLI
                 puts "╰──────────────────────┴────────────────────────┴──────────┴──────────╯"
             end
         end
+
+        window_navigation_single("Type '1' to return to #{pokemon.name}'s profile")
+
+        user_input = 0
+
+        while user_input != 1
+            print "Return?: "
+            user_input = gets.chomp.to_i
+            if user_input == 1
+                view_pokemon_profile(pokemon)
+            end
+        end
     end
 
     def self.view_pokemon_pvp_movesets(pokemon)
         system("clear")
         window_title_single("PVP Movesets")
-        puts "│        Quick              Charge 1          Charge 2       Grade │"
+        puts "│        Quick              Charge 1             Charge 2       Grade │"
         puts "├────────────────────┬────────────────────┬────────────────────┬──────┤"
         pokemon.pvp_movesets.each_with_index do |moveset, index|
             print "│"
@@ -365,6 +425,18 @@ class PokedexGo::CLI
                 puts "├────────────────────┼────────────────────┼────────────────────┼──────┤"
             else
                 puts "╰────────────────────┴────────────────────┴────────────────────┴──────╯"
+            end
+        end
+
+        window_navigation_single("Type '1' to return to #{pokemon.name}'s profile")
+
+        user_input = 0
+
+        while user_input != 1
+            print "Return?: "
+            user_input = gets.chomp.to_i
+            if user_input == 1
+                view_pokemon_profile(pokemon)
             end
         end
     end
