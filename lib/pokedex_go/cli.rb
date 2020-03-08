@@ -18,8 +18,7 @@ class PokedexGo::CLI
     end
 
     def self.welcome()
-        #initial welcome message and creation of Pokemon index
-        puts ": "
+        #creation of Pokemon index
         PokedexGo::Scraper.create_pokemon_from_index()
         main_menu()
     end
@@ -28,11 +27,24 @@ class PokedexGo::CLI
         #Root of menu system
         system("clear")
         window_title_single("Pokedex Go")
-        puts "│                  Welcome to Pokedex Go                              │"
-        puts "│    The World's Best Text-Based Pokemon Go Search Tool!              │"
+        puts "│                                   ,'\\                               │"
+        puts "│     _.----.        ____         ,'  _\\   ___    ___     ____        │"
+        puts "│ _,-'       `.     |    |  /`.   \\,-'    |   \\  /   |   |    \\  |`.  │"
+        puts "│ \\      __    \\    '-.  | /   `.  ___    |    \\/    |   '-.   \\ |  | │"
+        puts "│  \\.    \\ \\   |  __  |  |/    ,','_  `.  |          | __  |    \\|  | │"
+        puts "│    \\    \\/   /,' _`.|      ,' / / / /   |          ,' _`.|     |  | │"
+        puts "│     \\     ,-'/  /   \\    ,'   | \\/ / ,`.|         /  /   \\  |     | │"
+        puts "│      \\    \\ |   \\_/  |   `-.  \\    `'  /|  |    ||   \\_/  | |\\    | │"
+        puts "│       \\    \\ \\      /       `-.`.___,-' |  |\\  /| \\      /  | |   | │"
+        puts "│        \\    \\ `.__,'|  |`-._    `|      |__| \\/ |  `.__,'|  | |   | │"
+        puts "│         \\_.-'       |__|    `-._ |              '-.|     '-.| |   | │"
+        puts "│                                 `'                            '-._| │"
+        puts "│                        Welcome to Pokedex Go                        │"
         window_tail_single()
 
-        window_navigation_quad("1: List all Pokemon", "2: List by Pokemon type", "3: Search by Name or Number", "4: Exit")
+        window_navigation_quad("1: List all Pokemon", "2: Search by Pokemon type", "3: Search by Name", "4: Exit")
+
+        user_input = 0
 
         while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
             print "Enter an option: "
@@ -45,21 +57,14 @@ class PokedexGo::CLI
                 list_pokemon_of_type()
                 break
             when 3
+                search_by_name()
                 break
             when 4
-                main_menu()
+                break
             else
                 puts "#{user_input} is an invalid selection"
             end
         end
-    end
-
-    def self.list_all_pokemon()
-        present_pokemon_list(PokedexGo::Pokemon.all())
-        
-        print "Select a Pokemon: "
-        user_input = gets.chomp.to_i
-        view_pokemon_profile(PokedexGo::Pokemon.all.detect{|mon| mon.number == user_input})
     end
 
     def self.present_pokemon_list(list)
@@ -108,9 +113,13 @@ class PokedexGo::CLI
         #lists all pokemon of given type
         system("clear")
         window_title_single("Pokemon Types")
+        puts "|"
         puts "│ #{FX[:green]}Bug        #{FX[:magenta]}Dark       #{FX[:white]}Dragon       #{FX[:yellow]}Electric     #{FX[:cyan]}Fairy      #{FX[:red]}Fighting#{FX[:reset]} │"
+        puts "|"
         puts "│ #{FX[:red]}Fire       #{FX[:white]}Flying     #{FX[:magenta]}Ghost        #{FX[:green]}Grass        #{FX[:black]}Ground     #{FX[:cyan]}Ice#{FX[:reset]}      │"
+        puts "|"
         puts "│ #{FX[:white]}Normal     #{FX[:magenta]}Poison     #{FX[:red]}Psychic      #{FX[:black]}Rock         #{FX[:white]}Steel      #{FX[:blue]}Water#{FX[:reset]}    │"
+        puts "|"
         window_tail_single()
 
         window_navigation_single("Enter a Pokemon type")
@@ -130,7 +139,7 @@ class PokedexGo::CLI
         present_pokemon_list(pokemon_of_type)
     end
 
-    def self.search_by_name_or_number()
+    def self.search_by_name()
 
     end
 
