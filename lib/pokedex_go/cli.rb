@@ -19,7 +19,8 @@ class PokedexGo::CLI
 
     def self.call()
         #entrypoint
-        welcome()
+        #welcome()
+        PokedexGo::Adv_CLI.call()
     end
 
     def self.welcome()
