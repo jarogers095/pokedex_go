@@ -19,8 +19,7 @@ class PokedexGo::CLI
 
     def self.call()
         #entrypoint
-        #welcome()
-        PokedexGo::Adv_CLI.call()
+        welcome()
     end
 
     def self.welcome()
@@ -53,10 +52,12 @@ class PokedexGo::CLI
 
         user_input = 0
         prompt = "Enter an option: "
+
         while user_input != 1 && user_input != 2 && user_input != 3 && user_input != 4
             print FX[:line_clear]
             print prompt
             user_input = gets.chomp.to_i
+
             case user_input
             when 1
                 present_pokemon_list(PokedexGo::Pokemon.all())
@@ -141,7 +142,6 @@ class PokedexGo::CLI
                         print FX[:line_up]
                         prompt = "Name not found! Reselect 1, 2, 3 or 4: "
                     end
-                    break
                 when 4
                     main_menu()
                 else
@@ -185,6 +185,77 @@ class PokedexGo::CLI
     end
 
     def self.search_by_name(input)
+    end
+
+    def self.view_pokemon_pve_movesets(pokemon)
+
+        system("clear")
+        window_title_single("PVE Movesets")
+        puts "│        Quick                    Charge          Atk Grade Def Grade │"
+        puts "├──────────────────────┬────────────────────────┬──────────┬──────────┤"
+        pokemon.pve_movesets.each_with_index do |moveset, index|
+            print "│"
+            print center_string(moveset[:quick], 22, " ")
+            print "│"
+            print center_string(moveset[:charge], 24, " ")
+            print "│"
+            print center_string(moveset[:atk_grade], 10, " ")
+            print "│"
+            print center_string(moveset[:def_grade], 10, " ")   
+            puts "│"
+            if((index + 1) < pokemon.pve_movesets.size)
+                puts "├──────────────────────┼────────────────────────┼──────────┼──────────┤"
+            else
+                puts "╰──────────────────────┴────────────────────────┴──────────┴──────────╯"
+            end
+        end
+
+        window_navigation_single("Type '1' to return to #{pokemon.name}'s profile")
+
+        user_input = 0
+
+        while user_input != 1
+            print "Return?: "
+            user_input = gets.chomp.to_i
+            if user_input == 1
+                view_pokemon_profile(pokemon)
+            end
+        end
+    end
+
+    def self.view_pokemon_pvp_movesets(pokemon)
+        system("clear")
+        window_title_single("PVP Movesets")
+        puts "│        Quick              Charge 1             Charge 2       Grade │"
+        puts "├────────────────────┬────────────────────┬────────────────────┬──────┤"
+        pokemon.pvp_movesets.each_with_index do |moveset, index|
+            print "│"
+            print center_string(moveset[:quick], 20, " ")
+            print "│"
+            print center_string(moveset[:charge_1], 20, " ")
+            print "│"
+            print center_string(moveset[:charge_2], 20, " ")
+            print "│"
+            print center_string(moveset[:grade], 6, " ")   
+            puts "│"
+            if((index + 1) < pokemon.pvp_movesets.size)
+                puts "├────────────────────┼────────────────────┼────────────────────┼──────┤"
+            else
+                puts "╰────────────────────┴────────────────────┴────────────────────┴──────╯"
+            end
+        end
+
+        window_navigation_single("Type '1' to return to #{pokemon.name}'s profile")
+
+        user_input = 0
+
+        while user_input != 1
+            print "Return?: "
+            user_input = gets.chomp.to_i
+            if user_input == 1
+                view_pokemon_profile(pokemon)
+            end
+        end
     end
 
     def self.select_from_pokemon(list)
@@ -374,77 +445,6 @@ class PokedexGo::CLI
         print center_string(option_4, 34, " ")
         puts "│"
         puts "╰──────────────────────────────────┴──────────────────────────────────╯"
-    end
-
-    def self.view_pokemon_pve_movesets(pokemon)
-
-        system("clear")
-        window_title_single("PVE Movesets")
-        puts "│        Quick                    Charge          Atk Grade Def Grade │"
-        puts "├──────────────────────┬────────────────────────┬──────────┬──────────┤"
-        pokemon.pve_movesets.each_with_index do |moveset, index|
-            print "│"
-            print center_string(moveset[:quick], 22, " ")
-            print "│"
-            print center_string(moveset[:charge], 24, " ")
-            print "│"
-            print center_string(moveset[:atk_grade], 10, " ")
-            print "│"
-            print center_string(moveset[:def_grade], 10, " ")   
-            puts "│"
-            if((index + 1) < pokemon.pve_movesets.size)
-                puts "├──────────────────────┼────────────────────────┼──────────┼──────────┤"
-            else
-                puts "╰──────────────────────┴────────────────────────┴──────────┴──────────╯"
-            end
-        end
-
-        window_navigation_single("Type '1' to return to #{pokemon.name}'s profile")
-
-        user_input = 0
-
-        while user_input != 1
-            print "Return?: "
-            user_input = gets.chomp.to_i
-            if user_input == 1
-                view_pokemon_profile(pokemon)
-            end
-        end
-    end
-
-    def self.view_pokemon_pvp_movesets(pokemon)
-        system("clear")
-        window_title_single("PVP Movesets")
-        puts "│        Quick              Charge 1             Charge 2       Grade │"
-        puts "├────────────────────┬────────────────────┬────────────────────┬──────┤"
-        pokemon.pvp_movesets.each_with_index do |moveset, index|
-            print "│"
-            print center_string(moveset[:quick], 20, " ")
-            print "│"
-            print center_string(moveset[:charge_1], 20, " ")
-            print "│"
-            print center_string(moveset[:charge_2], 20, " ")
-            print "│"
-            print center_string(moveset[:grade], 6, " ")   
-            puts "│"
-            if((index + 1) < pokemon.pvp_movesets.size)
-                puts "├────────────────────┼────────────────────┼────────────────────┼──────┤"
-            else
-                puts "╰────────────────────┴────────────────────┴────────────────────┴──────╯"
-            end
-        end
-
-        window_navigation_single("Type '1' to return to #{pokemon.name}'s profile")
-
-        user_input = 0
-
-        while user_input != 1
-            print "Return?: "
-            user_input = gets.chomp.to_i
-            if user_input == 1
-                view_pokemon_profile(pokemon)
-            end
-        end
     end
 
     def self.center_string(string, gap, filler_character)

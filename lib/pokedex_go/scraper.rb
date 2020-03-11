@@ -1,10 +1,13 @@
 class PokedexGo::Scraper
 
     def self.get_page(url)
+        #Grab HTML of page at the given url and return it as a collection of nokogiri objects
         return Nokogiri::HTML(open(url))
     end
 
     def self.scrape_pokemon_index()
+        #Scrape the main index page that lists all the pokemon available on the site.
+        #Return an array of nokogiri objects
         return get_page("https://gamepress.gg/pokemongo/pokemon-list").css(".pokemon-row")
     end
 
