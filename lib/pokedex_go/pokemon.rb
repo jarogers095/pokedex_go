@@ -1,4 +1,9 @@
+
+
 class PokedexGo::Pokemon
+    extend Sortable
+
+
     TYPES = ["bug", "dark", "dragon", "electric", 
         "fairy", "fighting", "fire", "flying", 
         "ghost", "grass", "ground", "ice", 
@@ -36,12 +41,6 @@ class PokedexGo::Pokemon
     def add_stats(stats)
         stats.each do |key, value|
             instance_variable_set("@#{key}", value)
-        end
-    end
-    
-    def self.sort(method)
-        @@all.sort! do |a, b|
-            a.instance_variable_get("@#{method}") <=> b.instance_variable_get("@#{method}")
         end
     end
 end
