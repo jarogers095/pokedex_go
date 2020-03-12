@@ -70,17 +70,8 @@ class PokedexGo::CLI
                 print FX[:line_clear]
                 print "Enter pokemon name: "
                 user_input = gets.chomp
-                pokemon_of_name = PokedexGo::Pokemon.all.select do |pokemon|
-                    pokemon.name.downcase.include?(user_input.downcase)
-                end
-                if pokemon_of_name.size > 1
-                    select_from_pokemon(pokemon_of_name)
-                elsif pokemon_of_name.size == 1
-                    view_pokemon_profile(pokemon_of_name[0])
-                else
-                    print FX[:line_up]
-                    prompt = "Name not found! Reselect 1, 2, 3 or 4: "
-                end
+                search_by_name(user_input)
+                #break
             when 4
                 quit()
                 break
@@ -131,17 +122,8 @@ class PokedexGo::CLI
                     print FX[:line_up]
                     print "Enter pokemon name: "
                     user_input = gets.chomp
-                    pokemon_of_name = PokedexGo::Pokemon.all.select do |pokemon|
-                        pokemon.name.downcase.include?(user_input.downcase)
-                    end
-                    if pokemon_of_name.size > 1
-                        select_from_pokemon(pokemon_of_name)
-                    elsif pokemon_of_name.size == 1
-                        view_pokemon_profile(pokemon_of_name[0])
-                    else
-                        print FX[:line_up]
-                        prompt = "Name not found! Reselect 1, 2, 3 or 4: "
-                    end
+                    search_by_name(user_input)
+                    #break
                 when 4
                     main_menu()
                 else
@@ -184,7 +166,18 @@ class PokedexGo::CLI
         present_pokemon_list(pokemon_of_type)
     end
 
-    def self.search_by_name(input)
+    def self.search_by_name(user_input)
+        pokemon_of_name = PokedexGo::Pokemon.all.select do |pokemon|
+            pokemon.name.downcase.include?(user_input.downcase)
+        end
+        if pokemon_of_name.size > 1
+            select_from_pokemon(pokemon_of_name)
+        elsif pokemon_of_name.size == 1
+            view_pokemon_profile(pokemon_of_name[0])
+        else
+            #print FX[:line_up]
+            puts "Name not found!"
+        end
     end
 
     def self.view_pokemon_pve_movesets(pokemon)
@@ -281,7 +274,7 @@ class PokedexGo::CLI
         while user_input < 1 || user_input > list.size
             print "Number: "
             user_input = gets.chomp.to_i
-            view_pokemon_profile(list[user_input - 1])
+            view_pokemon_profile(list[user_input])
         end
     end
 
