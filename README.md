@@ -4,11 +4,6 @@ PokedexGo is an application that scrapes data from the website "gamepress.gg.pok
 
 A user can view a list of all available Pokemon, search by name or the number the game catalogues the Pokemon by. Once a user has selected a specific Pokemon, they can view details such as Pokemon type, attack and defense stats, attack pools, attack ratings, combat ranking, type strengths and weaknesses, and many more.
 
-## Prerequisites
-
-Nokogiri
-```gem install nokogiri```
-
 
 ## Installation
 
